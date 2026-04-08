@@ -11,7 +11,8 @@
         h2 { color: var(--primary); text-align: center; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; font-weight: 900; }
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 8px; font-size: 0.8em; color: #888; font-weight: bold; }
-        select, input { width: 100%; padding: 14px; background: #222; border: 1px solid #444; color: #fff; border-radius: 10px; box-sizing: border-box; font-size: 1em; }
+        select, input { width: 100%; padding: 14px; background: #222; border: 1px solid #444; color: #fff; border-radius: 10px; box-sizing: border-box; font-size: 1em; outline: none; }
+        select:focus, input:focus { border-color: var(--primary); }
         button { width: 100%; padding: 16px; background: var(--primary); color: #000; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; margin-top: 10px; text-transform: uppercase; transition: 0.3s; }
         button:hover { background: #e67e22; transform: scale(1.02); }
         #hasil { margin-top: 25px; padding: 20px; background: #000; border-radius: 12px; min-height: 80px; text-align: center; border: 1px dashed #444; display: flex; flex-direction: column; justify-content: center; }
@@ -34,15 +35,16 @@
             <option value="bri">BRI</option>
             <option value="cimb">CIMB NIAGA</option>
             <option value="permata">PERMATA</option>
-            <option value="gopay">GOPAY</option>
+            <option value="danamon">DANAMON</option>
+            <option value="gopay">GOPAY / OVO</option>
             <option value="dana">DANA</option>
-            <option value="ovo">OVO</option>
+            <option value="linkaja">LINKAJA</option>
         </select>
     </div>
 
     <div class="input-group">
         <label>NOMOR REKENING / HP</label>
-        <input type="number" id="norek" placeholder="Input nomor rekening...">
+        <input type="number" id="norek" placeholder="Input nomor...">
     </div>
 
     <button onclick="prosesCek()">CEK SEKARANG</button>
@@ -54,35 +56,41 @@
 
 <script>
 async function prosesCek() {
-    const bank = document.getElementById('bank').value;
+    const bank = document.getElementById('bank').value.toLowerCase(); // Paksa huruf kecil
     const norek = document.getElementById('norek').value;
     const display = document.getElementById('hasil');
     
-    // URL Google Apps Script lo yang baru
-    const gasURL = "https://script.google.com/macros/s/AKfycbzbr6UaOJ7Nm1uYbEHjqvGnI-3uiV528Po8g8ALlArd8pK2dKTetGP9QKhQv-xqCvnW/exec"; 
+    // URL Google Apps Script lo yang paling baru
+    const gasURL = "https://script.google.com/macros/s/AKfycby7nbkS_NWsgR5XSgDxYJOPIj-Yr1KV1Kc_HP8GKJB_uYhV3ZePxC3MeofpXRps52W9/exec"; 
 
     if (!norek) {
-        alert("Nomornya diisi dulu, Bosku!");
+        alert("Nomornya mana, Bosku?");
         return;
     }
 
-    display.innerHTML = '<span class="loading-msg">MENCARI DATA...</span>';
+    display.innerHTML = '<span class="loading-msg">MENGHUBUNGI SERVER...</span>';
 
     try {
-        // Tembak ke Google Apps Script (Anti-CORS)
         const response = await fetch(`${gasURL}?bank=${bank}&no=${norek}`);
         const data = await response.json();
 
-        if (data.status === "success" || data.status === true) {
-            display.innerHTML = `
-                <div style="font-size: 0.7em; color: #888; margin-bottom: 5px;">ATAS NAMA:</div>
-                <div class="nama-display">${data.data.name || data.data.account_name}</div>
-            `;
+        // Beberapa API balikin "status: true" atau "status: 'success'"
+        if (data.status === true || data.status === "success" || data.data) {
+            const namaFinal = data.data.name || data.data.account_name || data.data.accountName;
+            
+            if (namaFinal) {
+                display.innerHTML = `
+                    <div style="font-size: 0.7em; color: #888; margin-bottom: 5px;">ATAS NAMA:</div>
+                    <div class="nama-display">${namaFinal}</div>
+                `;
+            } else {
+                display.innerHTML = '<span style="color: #ff4444;">NAMA TIDAK DITEMUKAN</span>';
+            }
         } else {
             display.innerHTML = '<span style="color: #ff4444;">DATA TIDAK DITEMUKAN</span><br><small style="color: #555;">Cek nomor atau bank lagi.</small>';
         }
     } catch (err) {
-        display.innerHTML = '<span style="color: #ff4444;">ERROR SERVER</span><br><small style="color: #555;">API mungkin sedang limit.</small>';
+        display.innerHTML = '<span style="color: #ff4444;">SERVER BUSY</span><br><small style="color: #555;">API gratisan lagi limit, coba lagi nanti.</small>';
     }
 }
 </script>
