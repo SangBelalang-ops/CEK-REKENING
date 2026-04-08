@@ -1,64 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CEK REKENING INTERNAL</title>
+    <title>CEK NOREK INTERNAL</title>
     <style>
-        body { background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-        .box { background: #1e1e1e; padding: 20px; border-radius: 10px; width: 350px; border: 1px solid #333; }
-        select, input, button { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 5px; border: none; box-sizing: border-box; }
-        button { background: #f39c12; color: black; font-weight: bold; cursor: pointer; }
-        #hasil { margin-top: 20px; padding: 15px; background: #222; border-left: 5px solid #f39c12; min-height: 50px; word-break: break-all; }
+        body { background: #000; color: #fff; font-family: 'Courier New', Courier, monospace; display: flex; justify-content: center; padding: 20px; }
+        .card { background: #111; border: 2px solid #333; padding: 25px; border-radius: 15px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(255,152,0,0.1); }
+        h2 { color: #f39c12; text-align: center; font-weight: 900; letter-spacing: 2px; }
+        label { font-size: 0.8em; color: #888; display: block; margin-bottom: 5px; }
+        select, input { width: 100%; padding: 12px; margin-bottom: 20px; background: #222; border: 1px solid #444; color: #fff; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
+        button { width: 100%; padding: 15px; background: #f39c12; color: #000; border: none; border-radius: 8px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #e67e22; transform: scale(1.02); }
+        #hasil { margin-top: 20px; padding: 20px; border: 1px dashed #555; border-radius: 10px; background: #0a0a0a; min-height: 60px; text-align: center; }
+        .loading { color: #f39c12; font-style: italic; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2 style="text-align: center; color: #f39c12;">CEK REKENING BOSKU</h2>
-        
-        <label>Pilih Bank:</label>
-        <select id="bank">
-            <option value="bca">BCA</option>
-            <option value="mandiri">MANDIRI</option>
-            <option value="bni">BNI</option>
-            <option value="bri">BRI</option>
-            <option value="cimb">CIMB NIAGA</option>
-            <option value="danamon">DANAMON</option>
-        </select>
 
-        <label>Nomor Rekening:</label>
-        <input type="number" id="norek" placeholder="Tempel No Rek di sini...">
-        
-        <button onclick="gasCek()">CEK SEKARANG</button>
+<div class="card">
+    <h2>REK-CHECKER v1.0</h2>
+    <hr style="border: 0.5px solid #333; margin-bottom: 20px;">
 
-        <div id="hasil">Hasil bakal muncul di sini...</div>
+    <label>PILIH BANK</label>
+    <select id="bank">
+        <option value="bca">BANK BCA</option>
+        <option value="mandiri">BANK MANDIRI</option>
+        <option value="bni">BANK BNI</option>
+        <option value="bri">BANK BRI</option>
+        <option value="cimb">CIMB NIAGA</option>
+        <option value="permata">BANK PERMATA</option>
+        <option value="danamon">BANK DANAMON</option>
+        <option value="btn">BANK BTN</option>
+        <option value="bsi">BSI (SYARIAH)</option>
+    </select>
+
+    <label>NOMOR REKENING</label>
+    <input type="text" id="norek" placeholder="Input nomor rekening..." autocomplete="off">
+
+    <button onclick="gasCek()">INTIP NAMA SEKARANG</button>
+
+    <div id="hasil">
+        <span style="color: #444;">Hasil pencarian muncul di sini...</span>
     </div>
+</div>
 
-    <script>
-        async function gasCek() {
-            const bank = document.getElementById('bank').value;
-            const norek = document.getElementById('norek').value;
-            const display = document.getElementById('hasil');
+<script>
+async function gasCek() {
+    const bank = document.getElementById('bank').value;
+    const norek = document.getElementById('norek').value;
+    const display = document.getElementById('hasil');
 
-            if(!norek) return alert("Noreknya mana, Bujang?");
+    if (!norek || norek.length < 5) {
+        alert("Norek yang bener dong, Bujang!");
+        return;
+    }
 
-            display.innerText = "Sabar... lagi diintip...";
+    display.innerHTML = '<span class="loading">MENEMBUS SERVER BANK...</span>';
 
-            try {
-                // Kita pake API publik yang gratis (Bifrost/Epay)
-                const response = await fetch(`https://api-rekening.com/api/cek-rekening?bank=${bank}&account=${norek}`);
-                const data = await response.json();
+    try {
+        // Pake API Publik (Bifrost/Epay Proxy)
+        // URL ini biasanya gak perlu API Key kalau buat testing personal
+        const response = await fetch(`https://api.bifrost.id/v1/cek-rekening?bank=${bank}&account=${norek}`);
+        const data = await response.json();
 
-                if(data.status === true || data.status === "success") {
-                    display.innerHTML = `
-                        <span style="color: #f39c12; font-size: 0.8em;">NAMA PEMILIK:</span><br>
-                        <b style="font-size: 1.2em;">${data.data.name || data.data.account_name}</b>
-                    `;
-                } else {
-                    display.innerText = "Gagal: Rekening nggak ketemu atau API lagi limit.";
-                }
-            } catch (err) {
-                display.innerText = "Error: Koneksi internet atau API lagi down.";
-            }
+        if (data.status === true || data.status === "success") {
+            display.innerHTML = `
+                <div style="font-size: 0.75em; color: #888;">PEMILIK REKENING:</div>
+                <div style="font-size: 1.3em; font-weight: 900; color: #f39c12; margin-top: 5px;">${data.data.name || data.data.account_name}</div>
+            `;
+        } else {
+            display.innerHTML = `<span style="color: #ff4444;">DATA TIDAK DITEMUKAN</span><br><small style="color:#555">Cek nomor dan bank lagi.</small>`;
         }
-    </script>
+    } catch (err) {
+        display.innerHTML = `<span style="color: #ff4444;">ERROR KONEKSI</span><br><small style="color:#555">API mungkin limit atau lo lagi offline.</small>`;
+    }
+}
+</script>
+
 </body>
 </html>
