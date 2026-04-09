@@ -1,87 +1,60 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Tersnacks - Cek Rekening</title>
+    <title>Tersnacks Check</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Arial', sans-serif; display: flex; justify-content: center; padding-top: 50px; }
-        .container { background: #111; border: 2px solid #ff0000; padding: 30px; border-radius: 15px; width: 350px; box-shadow: 0 0 20px #ff0000; }
-        h2 { color: #ff0000; text-align: center; text-transform: uppercase; letter-spacing: 2px; }
-        select, input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; box-sizing: border-box; font-size: 16px; }
-        select, input { background: #222; color: #fff; outline: none; }
-        input:focus { border-color: #ff0000; }
-        button { background: #ff0000; color: #fff; border: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #b30000; transform: scale(1.02); }
-        #result { margin-top: 20px; text-align: center; border-top: 1px solid #333; padding-top: 20px; min-height: 60px; }
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
+        .box { border: 2px solid red; display: inline-block; padding: 20px; border-radius: 10px; background: #111; }
+        input, select, button { display: block; width: 250px; margin: 10px auto; padding: 10px; border-radius: 5px; }
+        button { background: red; color: white; font-weight: bold; cursor: pointer; border: none; }
+        #hasil { margin-top: 20px; font-size: 1.2em; color: lime; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>CEK REKENING</h2>
-    
-    <select id="bankCode">
-        <option value="">-- PILIH BANK --</option>
+<div class="box">
+    <h2>CEK PEMBAYARAN</h2>
+    <select id="bank">
         <option value="bca">BCA</option>
         <option value="mandiri">MANDIRI</option>
         <option value="bri">BRI</option>
-        <option value="bni">BNI</option>
         <option value="seabank">SEABANK</option>
-        <option value="dana">DANA</option>
-        <option value="ovo">OVO</option>
-        <option value="gopay">GOPAY</option>
     </select>
-
-    <input type="text" id="accNumber" placeholder="Nomor Rekening / HP">
-    
-    <button onclick="prosesCek()">PERIKSA SEKARANG</button>
-
-    <div id="result">Hasil akan muncul di sini...</div>
+    <input type="text" id="norek" placeholder="Nomor Rekening">
+    <button onclick="gasCek()">CEK SEKARANG</button>
+    <div id="hasil"></div>
 </div>
 
 <script>
-    async function prosesCek() {
-        const bank = document.getElementById('bankCode').value;
-        const norek = document.getElementById('accNumber').value;
-        const hasil = document.getElementById('result');
-        
-        // PASTIIN API KEY INI MASIH AKTIF DI DASHBOARD LO
-        const MY_KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs"; 
-        const ENDPOINT = "https://use.api.co.id/v1/bank/inquiry";
+async function gasCek() {
+    const bank = document.getElementById('bank').value;
+    const norek = document.getElementById('norek').value;
+    const hasil = document.getElementById('hasil');
+    
+    // API Key punya lo
+    const KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
+    const URL = `https://use.api.co.id/v1/bank/inquiry?bank_code=${bank}&account_number=${norek}`;
 
-        if(!bank || !norek) return alert("Pilih Bank & Isi Nomor Rekening!");
+    hasil.innerHTML = "Sabar, lagi dicek...";
 
-        hasil.innerHTML = "<span style='color:cyan'>Lagi narik data bank...</span>";
+    try {
+        const response = await fetch(URL, {
+            method: 'GET',
+            headers: { 'x-api-co-id': KEY }
+        });
 
-        try {
-            // Kita pake GET sesuai dokumentasi Inquiry
-            const response = await fetch(`${ENDPOINT}?bank_code=${bank}&account_number=${norek}`, {
-                method: 'GET',
-                headers: {
-                    'x-api-co-id': MY_KEY,
-                    'Accept': 'application/json'
-                }
-            });
+        const res = await response.json();
 
-            const res = await response.json();
-
-            if (res.status === "success" || res.success === true) {
-                // Di sini Nama Full Bakal Muncul Tanpa Sensor (Jika paket Inquiry aktif)
-                const namaAsli = res.data.account_name || res.data.name;
-                hasil.innerHTML = `
-                    <div style="color:#00ff00;">
-                        NAMA PEMILIK:<br>
-                        <b style="font-size:22px;">${namaAsli.toUpperCase()}</b>
-                    </div>`;
-            } else {
-                // Kalau saldo kurang atau bank gangguan, pesan error muncul di sini
-                hasil.innerHTML = `<span style='color:#ffae00;'>GAGAL: ${res.message}</span>`;
-            }
-        } catch (err) {
-            hasil.innerHTML = "<span style='color:red;'>ERROR KONEKSI!<br><small>Cek Whitelist IP/Domain di Dashboard!</small></span>";
-            console.error(err);
+        if(res.status === "success") {
+            // Ini bakal keluar NAMA LENGKAP tanpa sensor
+            hasil.innerHTML = "NAMA: " + res.data.account_name.toUpperCase();
+        } else {
+            hasil.innerHTML = "GAGAL: " + res.message;
         }
+    } catch (e) {
+        hasil.innerHTML = "ERROR KONEKSI!<br><small>Wajib Whitelist IP di Dashboard!</small>";
     }
+}
 </script>
 
 </body>
