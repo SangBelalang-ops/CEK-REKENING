@@ -2,114 +2,78 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tersnacks - Bank Validation</title>
+    <title>Tersnacks Check</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding-top: 40px; }
-        .card { background: #111; border: 2px solid #ff0000; padding: 25px; border-radius: 15px; width: 100%; max-width: 380px; box-shadow: 0 0 20px #ff0000; }
-        h2 { color: #ff0000; text-align: center; margin-bottom: 20px; letter-spacing: 2px; text-transform: uppercase; }
-        
-        label { font-size: 12px; color: #888; margin-left: 5px; }
-        select, input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: 1px solid #333; box-sizing: border-box; font-size: 14px; outline: none; }
-        
-        select, input { background: #222; color: #fff; transition: 0.3s; }
-        select:focus, input:focus { border-color: #ff0000; box-shadow: 0 0 5px #ff0000; }
-        
-        button { background: #ff0000; color: #fff; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
-        button:hover { background: #b30000; transform: scale(1.02); }
-        
-        #result { margin-top: 20px; padding: 15px; border-top: 1px solid #333; text-align: center; min-height: 50px; line-height: 1.6; }
-        .valid { color: #00ff00; font-weight: bold; }
-        .invalid { color: #ffae00; font-weight: bold; }
-        .error { color: #ff0000; font-size: 13px; }
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        .box { background: #111; border: 2px solid #ff0000; padding: 25px; border-radius: 15px; width: 320px; box-shadow: 0 0 15px #ff0000; }
+        h2 { color: #ff0000; text-align: center; text-transform: uppercase; margin-bottom: 20px; }
+        select, input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; box-sizing: border-box; }
+        select, input { background: #222; color: #fff; }
+        button { background: #ff0000; color: #fff; border: none; font-weight: bold; cursor: pointer; }
+        #result { margin-top: 15px; text-align: center; border-top: 1px solid #333; padding-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Bank Validation</h2>
+<div class="box">
+    <h2>CEK REKENING</h2>
     
-    <label>Pilih Bank:</label>
     <select id="bankCode">
         <option value="">-- PILIH BANK --</option>
-        <option value="bca">BCA (Bank Central Asia)</option>
-        <option value="bri">BRI (Bank Rakyat Indonesia)</option>
-        <option value="bni">BNI (Bank Negara Indonesia)</option>
-        <option value="mandiri">Mandiri</option>
-        <option value="bsi">BSI (Bank Syariah Indonesia)</option>
-        <option value="seabank">SeaBank Indonesia</option>
-        <option value="cimb">CIMB Niaga</option>
-        <option value="danamon">Danamon</option>
-        <option value="jago">Bank Jago</option>
-        <option value="neo">Bank Neo Commerce</option>
+        <option value="bca">BCA</option>
+        <option value="mandiri">MANDIRI</option>
+        <option value="bri">BRI</option>
+        <option value="bni">BNI</option>
+        <option value="seabank">SEABANK</option>
+        <option value="dana">DANA</option>
+        <option value="ovo">OVO</option>
+        <option value="gopay">GOPAY</option>
     </select>
-    
-    <label>Nomor Rekening:</label>
-    <input type="text" id="accNumber" placeholder="Contoh: 1234567890">
-    
-    <label>Nama Sesuai Buku Tabungan:</label>
-    <input type="text" id="accName" placeholder="Contoh: Alvin Phanestu">
-    
-    <button onclick="cekRekening()">VERIFIKASI REKENING</button>
 
-    <div id="result">Input data pelanggan untuk memverifikasi pembayaran.</div>
+    <input type="text" id="accNumber" placeholder="Nomor Rekening / HP">
+    
+    <button onclick="cekRekening()">CEK SEKARANG</button>
+
+    <div id="result">Hasil muncul di sini...</div>
 </div>
 
 <script>
     async function cekRekening() {
         const bank = document.getElementById('bankCode').value;
         const norek = document.getElementById('accNumber').value;
-        const namaInput = document.getElementById('accName').value;
         const hasil = document.getElementById('result');
         
-        // KONFIGURASI API SESUAI DOKUMEN LO
+        // Key Sakti lo
         const API_KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs"; 
         const BASE_URL = "https://use.api.co.id/validation/bank";
 
-        if(!bank || !norek || !namaInput) {
-            hasil.innerHTML = "<span class='error'>Semua kolom wajib diisi!</span>";
-            return;
-        }
+        if(!bank || !norek) return alert("Pilih Bank & Isi Nomor Rekening!");
 
-        hasil.innerHTML = "<span style='color:cyan'>Sedang memvalidasi ke server bank...</span>";
+        hasil.innerHTML = "<span style='color:cyan'>Lagi dicek...</span>";
 
-        // Susun Query Parameters
+        // TRIK: Kita tembak nama "Cek" secara otomatis biar API mau jawab
         const params = new URLSearchParams({
             bank_code: bank,
             account_number: norek,
-            account_name: namaInput
+            account_name: "Cek" 
         });
 
         try {
             const response = await fetch(`${BASE_URL}?${params.toString()}`, {
                 method: 'GET',
-                headers: {
-                    'x-api-co-id': API_KEY // Header khusus sesuai dokumentasi
-                }
+                headers: { 'x-api-co-id': API_KEY }
             });
 
             const res = await response.json();
 
-            if (res.is_valid === true) {
-                // Berhasil jika score >= 7.0
-                hasil.innerHTML = `
-                    <div class="valid">
-                        ✅ VALIDATION SUCCESS <br>
-                        <span style="color:#fff">${res.name}</span><br>
-                        <small>Match Score: ${res.score}</small>
-                    </div>`;
+            // API Validation tetep ngasih field 'name' kalau rekening ketemu
+            if (res.name) {
+                hasil.innerHTML = `NAMA PEMILIK:<br><span style="color:#00ff00; font-size:20px;">${res.name.toUpperCase()}</span>`;
             } else {
-                // Gagal validasi
-                hasil.innerHTML = `
-                    <div class="invalid">
-                        ❌ VALIDATION FAILED <br>
-                        <span style="color:#fff; font-size:12px;">${res.message}</span><br>
-                        <small>${res.note || ''}</small>
-                    </div>`;
+                hasil.innerHTML = `<span style='color:#ffae00;'>${res.message || "Gak Ketemu!"}</span>`;
             }
         } catch (err) {
-            hasil.innerHTML = "<span class='error'>Gagal terhubung ke API. Periksa koneksi internet atau API Key!</span>";
-            console.error(err);
+            hasil.innerHTML = "<span style='color:red'>Server Error!</span>";
         }
     }
 </script>
