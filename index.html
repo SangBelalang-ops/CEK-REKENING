@@ -1,38 +1,19 @@
-<div style="background: #000; color: #fff; padding: 25px; border: 2px solid #ff0000; border-radius: 15px; width: 350px; font-family: sans-serif; box-shadow: 0 0 15px #ff0000;">
-    <h2 style="color: #ff0000; text-align: center; letter-spacing: 2px;">TERSNACKS CHECK</h2>
+<div style="background:#000; color:#fff; padding:20px; border:2px solid #ff0000; width:320px; border-radius:10px;">
+    <h2 style="color:#ff0000; text-align:center;">CEK REKENING</h2>
     
-    <label>Pilih Metode Pembayaran:</label>
-    <select id="bankCode" style="width: 100%; margin: 10px 0; padding: 12px; background: #222; color: #fff; border: 1px solid #444;">
-        <option value="">-- PILIH BANK / E-WALLET --</option>
-        <optgroup label="E-WALLET">
-            <option value="dana">DANA</option>
-            <option value="ovo">OVO</option>
-            <option value="gopay">GOPAY</option>
-            <option value="linkaja">LINKAJA</option>
-            <option value="shopeepay">SHOPEEPAY</option>
-        </optgroup>
-        <optgroup label="BANK NASIONAL">
-            <option value="bca">BCA</option>
-            <option value="bni">BNI</option>
-            <option value="bri">BRI</option>
-            <option value="mandiri">MANDIRI</option>
-            <option value="cimb">CIMB NIAGA</option>
-            <option value="btn">BTN</option>
-            <option value="permata">PERMATA BANK</option>
-            <option value="bsi">BSI (SYARIAH INDONESIA)</option>
-        </optgroup>
-        <optgroup label="LAINNYA">
-            <option value="jago">BANK JAGO</option>
-            <option value="seabank">SEABANK</option>
-            <option value="neo">NEO COMMERCE</option>
-        </optgroup>
+    <select id="bankCode" style="width:100%; padding:10px; margin-bottom:10px;">
+        <option value="">-- PILIH BANK / EWALLET --</option>
+        <option value="bca">BCA</option>
+        <option value="mandiri">MANDIRI</option>
+        <option value="bri">BRI</option>
+        <option value="bni">BNI</option>
+        <option value="dana">DANA</option>
+        <option value="ovo">OVO</option>
+        <option value="gopay">GOPAY</option>
     </select>
-    
-    <input type="text" id="accNumber" placeholder="Nomor Rekening / HP" style="width: 92%; padding: 12px; margin-bottom: 10px; background: #222; color: #fff; border: 1px solid #444;">
-    
-    <button onclick="cekRekening()" style="width: 100%; padding: 12px; background: #ff0000; color: white; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase;">PERIKSA SEKARANG</button>
 
-    <div id="result" style="margin-top: 20px; text-align: center; border-top: 1px solid #333; padding-top: 15px; min-height: 40px;">
-        Menunggu input...
-    </div>
+    <input type="text" id="accNumber" placeholder="Nomor Rekening" style="width:93%; padding:10px; margin-bottom:10px;">
+    <button onclick="cekRekening()" style="width:100%; padding:10px; background:#ff0000; color:#fff; border:none; font-weight:bold; cursor:pointer;">CEK SEKARANG</button>
+
+    <div id="result" style="margin-top:15px; text-align:center;"></div>
 </div>
