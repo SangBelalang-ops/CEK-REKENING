@@ -1,82 +1,70 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Sistem Validasi Rekening Kerja</title>
+    <title>Validasi Rekening Premium</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #fff; display: flex; justify-content: center; padding-top: 50px; }
-        .card { background: #1e1e1e; padding: 30px; border-radius: 12px; border: 1px solid #333; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { text-align: center; color: #007bff; margin-bottom: 25px; font-size: 18px; text-transform: uppercase; }
-        label { display: block; margin-bottom: 8px; font-size: 13px; color: #888; }
-        select, input, button { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #333; background: #252525; color: #fff; font-size: 16px; box-sizing: border-box; }
-        button { background: #007bff; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #0056b3; }
-        #hasil-box { text-align: center; padding: 20px; border-radius: 6px; background: #111; border: 1px solid #333; min-height: 50px; }
-        .nama-full { color: #28a745; font-weight: bold; font-size: 22px; display: block; margin-top: 10px; text-transform: uppercase; }
+        body { font-family: sans-serif; background: #121212; color: #fff; display: flex; justify-content: center; padding-top: 50px; }
+        .card { background: #1e1e1e; padding: 30px; border-radius: 12px; width: 350px; border: 1px solid #333; }
+        input, select, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #444; background: #252525; color: #fff; }
+        button { background: #007bff; font-weight: bold; cursor: pointer; border: none; }
+        #hasil { margin-top: 20px; text-align: center; padding: 15px; background: #000; border-radius: 8px; min-height: 50px; }
+        .nama-full { color: #28a745; font-weight: bold; font-size: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card">
-        <h2>VALIDASI REKENING PREMIUM</h2>
-        
-        <label>Pilih Bank</label>
-        <select id="bank">
-            <option value="bca">BCA</option>
-            <option value="mandiri">MANDIRI</option>
-            <option value="bri">BRI</option>
-            <option value="bni">BNI</option>
-            <option value="seabank">SEABANK</option>
-            <option value="jago">BANK JAGO</option>
-            <option value="dana">DANA</option>
-            <option value="ovo">OVO</option>
-        </select>
-
-        <label>Nomor Rekening</label>
-        <input type="text" id="norek" placeholder="Isi nomor rekening">
-        
-        <button onclick="cekRekening()">VALIDASI SEKARANG</button>
-
-        <div id="hasil-box">Menunggu Input...</div>
-    </div>
+<div class="card">
+    <h2 style="text-align:center; color:#007bff">CEK REKENING PRO</h2>
+    <select id="bank">
+        <option value="bca">BCA</option>
+        <option value="mandiri">MANDIRI</option>
+        <option value="bri">BRI</option>
+        <option value="bni">BNI</option>
+        <option value="seabank">SEABANK</option>
+        <option value="dana">DANA</option>
+    </select>
+    <input type="text" id="norek" placeholder="Nomor Rekening">
+    <button onclick="gasCek()">CEK SEKARANG</button>
+    <div id="hasil">Hasil muncul di sini...</div>
 </div>
 
 <script>
-async function cekRekening() {
+async function gasCek() {
     const bank = document.getElementById('bank').value;
     const norek = document.getElementById('norek').value;
-    const box = document.getElementById('hasil-box');
+    const box = document.getElementById('hasil');
 
-    if(!norek) return alert("Nomor rekening wajib diisi!");
+    if(!norek) return alert("Isi nomor rekening!");
+    box.innerHTML = "Sedang memproses...";
 
-    box.innerHTML = "<span style='color:#007bff'>Menghubungkan ke Bank...</span>";
-
-    // KUNCI PREMIUM LO
-    const MY_KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
-    const TARGET_URL = `https://use.api.co.id/v1/bank/inquiry?bank_code=${bank}&account_number=${norek}`;
-    
-    // JEMBATAN SAKTI (Supaya gak diblokir browser)
-    const PROXY = "https://api.allorigins.win/get?url=" + encodeURIComponent(TARGET_URL);
+    const KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
+    const TARGET = `https://use.api.co.id/v1/bank/inquiry?bank_code=${bank}&account_number=${norek}`;
+    const PROXY = "https://api.allorigins.win/get?url=" + encodeURIComponent(TARGET);
 
     try {
         const response = await fetch(PROXY);
         const wrapper = await response.json();
-        
-        // Data asli ada di dalam wrapper.contents
         const res = JSON.parse(wrapper.contents);
 
+        console.log("Respon API:", res); // Cek di Inspect Element -> Console
+
         if (res.status === "success" || res.success === true) {
-            // Karena paket PREMIUM, ini akan keluar NAMA FULL
-            const namaOrang = res.data.account_name || res.data.name;
-            box.innerHTML = `NAMA PEMILIK:<br><span class="nama-full">${namaOrang}</span>`;
+            // Kita cari namanya di berbagai kemungkinan field
+            let namaFull = "";
+            if (res.data) {
+                namaFull = res.data.account_name || res.data.name || res.data.customer_name || res.data.account_holder_name;
+            }
+
+            if (namaFull) {
+                box.innerHTML = `NAMA PEMILIK:<br><span class="nama-full">${namaFull}</span>`;
+            } else {
+                box.innerHTML = "<span style='color:orange'>Sukses, tapi Nama Gak Ketemu.<br>Cek Console Log!</span>";
+            }
         } else {
-            box.innerHTML = `<span style="color:#f39c12">GAGAL: ${res.message}</span>`;
+            box.innerHTML = `<span style='color:red'>GAGAL: ${res.message || "Saldo Abis / Key Salah"}</span>`;
         }
     } catch (err) {
-        // Jika masih error, berarti saldo lo abis atau API Key salah
-        box.innerHTML = "<span style='color:#e74c3c'>SERVER ERROR!<br><small>Cek saldo atau API Key di dashboard lo.</small></span>";
-        console.error(err);
+        box.innerHTML = "<span style='color:red'>KONEKSI ERROR!<br>Coba ganti koneksi internet (Hotspot).</span>";
     }
 }
 </script>
