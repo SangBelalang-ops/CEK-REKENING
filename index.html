@@ -1,61 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tersnacks Check</title>
-    <style>
-        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        .box { border: 2px solid red; display: inline-block; padding: 20px; border-radius: 10px; background: #111; }
-        input, select, button { display: block; width: 250px; margin: 10px auto; padding: 10px; border-radius: 5px; }
-        button { background: red; color: white; font-weight: bold; cursor: pointer; border: none; }
-        #hasil { margin-top: 20px; font-size: 1.2em; color: lime; }
-    </style>
-</head>
-<body>
-
-<div class="box">
-    <h2>CEK PEMBAYARAN</h2>
-    <select id="bank">
+<select id="bankCode">
+    <option value="">-- PILIH BANK / E-WALLET --</option>
+    <optgroup label="BANK POPULER">
         <option value="bca">BCA</option>
         <option value="mandiri">MANDIRI</option>
         <option value="bri">BRI</option>
+        <option value="bni">BNI</option>
+        <option value="btn">BTN</option>
         <option value="seabank">SEABANK</option>
-    </select>
-    <input type="text" id="norek" placeholder="Nomor Rekening">
-    <button onclick="gasCek()">CEK SEKARANG</button>
-    <div id="hasil"></div>
-</div>
+        <option value="bsi">BSI (SYARIAH INDONESIA)</option>
+    </optgroup>
 
-<script>
-async function gasCek() {
-    const bank = document.getElementById('bank').value;
-    const norek = document.getElementById('norek').value;
-    const hasil = document.getElementById('hasil');
-    
-    // API Key punya lo
-    const KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
-    const URL = `https://use.api.co.id/v1/bank/inquiry?bank_code=${bank}&account_number=${norek}`;
+    <optgroup label="BANK DIGITAL / LAIN">
+        <option value="jago">BANK JAGO</option>
+        <option value="allo">ALLO BANK</option>
+        <option value="neo">NEO COMMERCE</option>
+        <option value="blu">BLU BY BCA</option>
+        <option value="danamon">DANAMON</option>
+        <option value="permata">PERMATA BANK</option>
+        <option value="cimb">CIMB NIAGA</option>
+        <option value="panin">PANIN BANK</option>
+        <option value="ocbc">OCBC NISP</option>
+    </optgroup>
 
-    hasil.innerHTML = "Sabar, lagi dicek...";
+    <optgroup label="E-WALLET">
+        <option value="dana">DANA</option>
+        <option value="ovo">OVO</option>
+        <option value="gopay">GOPAY</option>
+        <option value="linkaja">LINKAJA</option>
+        <option value="shopeepay">SHOPEEPAY</option>
+    </optgroup>
 
-    try {
-        const response = await fetch(URL, {
-            method: 'GET',
-            headers: { 'x-api-co-id': KEY }
-        });
-
-        const res = await response.json();
-
-        if(res.status === "success") {
-            // Ini bakal keluar NAMA LENGKAP tanpa sensor
-            hasil.innerHTML = "NAMA: " + res.data.account_name.toUpperCase();
-        } else {
-            hasil.innerHTML = "GAGAL: " + res.message;
-        }
-    } catch (e) {
-        hasil.innerHTML = "ERROR KONEKSI!<br><small>Wajib Whitelist IP di Dashboard!</small>";
-    }
-}
-</script>
-
-</body>
-</html>
+    <optgroup label="BANK DAERAH (BPD)">
+        <option value="bjb">BJB (JAWA BARAT)</option>
+        <option value="dki">BANK DKI</option>
+        <option value="jatim">BANK JATIM</option>
+        <option value="jateng">BANK JATENG</option>
+        <option value="papua">BANK PAPUA</option>
+        </optgroup>
+</select>
