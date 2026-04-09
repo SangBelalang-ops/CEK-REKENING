@@ -1,65 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>VALIDASI REKENING PREMIUM</title>
+    <meta charset="UTF-8">
+    <title>Sistem Validasi Rekening Kerja</title>
     <style>
-        body { font-family: sans-serif; background: #111; color: #fff; display: flex; justify-content: center; padding-top: 50px; }
-        .box { background: #222; padding: 30px; border-radius: 10px; width: 350px; border: 1px solid #444; }
-        select, input, button { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; }
-        button { background: #007bff; color: white; font-weight: bold; cursor: pointer; }
-        #output { margin-top: 20px; text-align: center; padding: 15px; background: #000; border-radius: 5px; }
-        .nama { color: #00ff00; font-size: 20px; font-weight: bold; }
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #fff; display: flex; justify-content: center; padding-top: 50px; }
+        .card { background: #1e1e1e; padding: 30px; border-radius: 12px; border: 1px solid #333; width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { text-align: center; color: #007bff; margin-bottom: 25px; font-size: 18px; text-transform: uppercase; }
+        label { display: block; margin-bottom: 8px; font-size: 13px; color: #888; }
+        select, input, button { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 6px; border: 1px solid #333; background: #252525; color: #fff; font-size: 16px; box-sizing: border-box; }
+        button { background: #007bff; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        button:hover { background: #0056b3; }
+        #hasil-box { text-align: center; padding: 20px; border-radius: 6px; background: #111; border: 1px solid #333; min-height: 50px; }
+        .nama-full { color: #28a745; font-weight: bold; font-size: 22px; display: block; margin-top: 10px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h3 style="text-align:center">CEK REKENING INDONESIA</h3>
-    <select id="bank">
-        <option value="bca">BCA</option>
-        <option value="mandiri">MANDIRI</option>
-        <option value="bri">BRI</option>
-        <option value="bni">BNI</option>
-        <option value="seabank">SEABANK</option>
-        <option value="jago">BANK JAGO</option>
-        <option value="dana">DANA</option>
-        <option value="ovo">OVO</option>
-    </select>
-    <input type="text" id="norek" placeholder="Nomor Rekening">
-    <button onclick="gasCek()">VALIDASI SEKARANG</button>
-    <div id="output">Hasil muncul di sini...</div>
+<div class="container">
+    <div class="card">
+        <h2>VALIDASI REKENING PREMIUM</h2>
+        
+        <label>Pilih Bank</label>
+        <select id="bank">
+            <option value="bca">BCA</option>
+            <option value="mandiri">MANDIRI</option>
+            <option value="bri">BRI</option>
+            <option value="bni">BNI</option>
+            <option value="seabank">SEABANK</option>
+            <option value="jago">BANK JAGO</option>
+            <option value="dana">DANA</option>
+            <option value="ovo">OVO</option>
+        </select>
+
+        <label>Nomor Rekening</label>
+        <input type="text" id="norek" placeholder="Isi nomor rekening">
+        
+        <button onclick="cekRekening()">VALIDASI SEKARANG</button>
+
+        <div id="hasil-box">Menunggu Input...</div>
+    </div>
 </div>
 
 <script>
-async function gasCek() {
+async function cekRekening() {
     const bank = document.getElementById('bank').value;
     const norek = document.getElementById('norek').value;
-    const out = document.getElementById('output');
+    const box = document.getElementById('hasil-box');
 
-    if(!norek) return alert("Isi nomor rekening!");
+    if(!norek) return alert("Nomor rekening wajib diisi!");
 
-    out.innerHTML = "Menghubungkan ke Bank...";
+    box.innerHTML = "<span style='color:#007bff'>Menghubungkan ke Bank...</span>";
 
-    // API KEY PREMIUM LO
-    const KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
-    const URL = `https://use.api.co.id/v1/bank/inquiry?bank_code=${bank}&account_number=${norek}`;
+    // KUNCI PREMIUM LO
+    const MY_KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
+    const TARGET_URL = `https://use.api.co.id/v1/bank/inquiry?bank_code=${bank}&account_number=${norek}`;
+    
+    // JEMBATAN SAKTI (Supaya gak diblokir browser)
+    const PROXY = "https://api.allorigins.win/get?url=" + encodeURIComponent(TARGET_URL);
 
     try {
-        const response = await fetch(URL, {
-            method: 'GET',
-            headers: { 'x-api-co-id': KEY }
-        });
+        const response = await fetch(PROXY);
+        const wrapper = await response.json();
+        
+        // Data asli ada di dalam wrapper.contents
+        const res = JSON.parse(wrapper.contents);
 
-        const res = await response.json();
-
-        if(res.status === "success") {
-            // Karena Premium, ini HARUSNYA Nama Lengkap
-            out.innerHTML = `NAMA PEMILIK:<br><span class="nama">${res.data.account_name}</span>`;
+        if (res.status === "success" || res.success === true) {
+            // Karena paket PREMIUM, ini akan keluar NAMA FULL
+            const namaOrang = res.data.account_name || res.data.name;
+            box.innerHTML = `NAMA PEMILIK:<br><span class="nama-full">${namaOrang}</span>`;
         } else {
-            out.innerHTML = "GAGAL: " + res.message;
+            box.innerHTML = `<span style="color:#f39c12">GAGAL: ${res.message}</span>`;
         }
-    } catch (e) {
-        out.innerHTML = "<b style='color:red'>BROWSER MEMBLOKIR KONEKSI!</b><br><small>Solusi: Aktifkan Ekstensi 'Allow CORS' di Chrome atau upload file ini ke Hosting.</small>";
+    } catch (err) {
+        // Jika masih error, berarti saldo lo abis atau API Key salah
+        box.innerHTML = "<span style='color:#e74c3c'>SERVER ERROR!<br><small>Cek saldo atau API Key di dashboard lo.</small></span>";
+        console.error(err);
     }
 }
 </script>
