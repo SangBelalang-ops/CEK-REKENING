@@ -3,98 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validator Rekening Premium</title>
+    <title>API Validasi Bank Indonesia</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+<body class="flex items-center justify-center min-h-screen p-6">
 
-    <div class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-md border border-gray-200">
+    <div class="w-full max-w-lg">
+        <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-2xl font-black text-blue-700 uppercase tracking-tighter">Premium Checker</h1>
-            <p class="text-gray-400 text-xs font-bold uppercase">Bank & E-Wallet Validator</p>
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">API <span class="text-blue-600">Validasi</span></h1>
+            <p class="text-slate-500 mt-2">Layanan cek nomor rekening bank & e-wallet otomatis</p>
         </div>
 
-        <div class="space-y-4">
-            <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase ml-2">Pilih Bank</label>
-                <select id="bank" class="w-full p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-semibold text-gray-700">
-                    <option value="bca">BCA</option>
-                    <option value="mandiri">Mandiri</option>
-                    <option value="bni">BNI</option>
-                    <option value="bri">BRI</option>
-                    <option value="cimb">CIMB Niaga</option>
-                    <option value="gopay">GoPay / Dana / OVO</option>
-                </select>
+        <!-- Main Card -->
+        <div class="bg-white shadow-xl shadow-blue-100/50 rounded-2xl p-8 border border-slate-100">
+            <div class="space-y-5">
+                <!-- Select Bank -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Pilih Bank / E-Wallet</label>
+                    <select id="bank" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all outline-none font-medium">
+                        <option value="bca">BCA (Bank Central Asia)</option>
+                        <option value="mandiri">Mandiri</option>
+                        <option value="bni">BNI</option>
+                        <option value="bri">BRI</option>
+                        <option value="cimb">CIMB Niaga</option>
+                        <option value="gopay">GoPay</option>
+                        <option value="dana">DANA</option>
+                        <option value="ovo">OVO</option>
+                    </select>
+                </div>
+
+                <!-- Input Rekening -->
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Nomor Rekening</label>
+                    <input type="number" id="account" placeholder="Masukkan nomor rekening..." 
+                        class="w-full p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all outline-none text-lg font-semibold">
+                </div>
+
+                <!-- Button -->
+                <button onclick="cekSekarang()" id="btnCek" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-blue-200 transition-all active:scale-95">
+                    Cek Validasi Sekarang
+                </button>
             </div>
 
-            <div>
-                <label class="text-[10px] font-bold text-gray-400 uppercase ml-2">Nomor Rekening</label>
-                <input type="number" id="account" placeholder="Contoh: 801234xxx" 
-                    class="w-full p-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-lg">
+            <!-- Loading Spinner -->
+            <div id="loading" class="hidden mt-8 text-center animate-pulse">
+                <div class="inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <p class="text-sm font-medium text-slate-500 mt-2">Memvalidasi data...</p>
             </div>
 
-            <button onclick="mulaiCek()" id="btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-blue-200">
-                PERIKSA SEKARANG
-            </button>
-        </div>
-
-        <!-- Loading -->
-        <div id="loader" class="hidden mt-6 text-center animate-pulse">
-            <div class="inline-block w-6 h-6 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            <p class="text-xs font-bold text-blue-600 mt-2">Menghubungi Server...</p>
-        </div>
-
-        <!-- Hasil -->
-        <div id="boxHasil" class="hidden mt-8">
-            <div class="p-6 rounded-3xl bg-blue-50 border border-blue-100 text-center">
-                <p class="text-[10px] font-bold text-blue-400 uppercase mb-1">Nama Pemilik:</p>
-                <h2 id="txtNama" class="text-2xl font-black text-blue-900 break-words"></h2>
-            </div>
-            
-            <div class="mt-4 flex gap-3 p-4 bg-purple-50 rounded-2xl border border-purple-100">
-                <i class="fas fa-robot text-purple-600 mt-1"></i>
-                <p id="txtAi" class="text-xs text-purple-800 italic leading-relaxed"></p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        async function mulaiCek() {
-            const bank = document.getElementById('bank').value;
-            const account = document.getElementById('account').value;
-            const btn = document.getElementById('btn');
-            const loader = document.getElementById('loader');
-            const box = document.getElementById('boxHasil');
-
-            if(!account) return alert("Masukkan nomor rekening!");
-
-            // UI State
-            btn.disabled = true;
-            btn.opacity = "0.5";
-            loader.classList.remove('hidden');
-            box.classList.add('hidden');
-
-            try {
-                const response = await fetch(`api.php?bank=${bank}&account=${account}`);
-                const res = await response.json();
-
-                loader.classList.add('hidden');
-                btn.disabled = false;
-
-                if(res.success) {
-                    box.classList.remove('hidden');
-                    document.getElementById('txtNama').innerText = res.nama;
-                    document.getElementById('txtAi').innerText = res.ai_analysis;
-                } else {
-                    alert("Gagal: Rekening tidak ditemukan atau salah kode bank.");
-                }
-            } catch (e) {
-                alert("Error: Gagal koneksi ke api.php");
-                btn.disabled = false;
-                loader.classList.add('hidden');
-            }
-        }
-    </script>
-</body>
-</html>
+            <!-- Result Box -->
+            <div id="result" class="hidden mt-8 p-6 rounded-2xl bg-blue-50 border border-blue-100">
+                <div class="text-center">
+                    <
