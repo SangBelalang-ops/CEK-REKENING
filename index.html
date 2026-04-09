@@ -2,87 +2,105 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Validator Rekening Premium - All Fine</title>
+    <title>Sistem Validasi Premium - ALL FINE</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: #fff; display: flex; justify-content: center; padding: 40px 20px; }
-        .container { background: #151515; padding: 30px; border-radius: 12px; width: 100%; max-width: 420px; border-left: 5px solid #ff0000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { margin-top: 0; color: #ff0000; letter-spacing: 1px; font-size: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
-        label { display: block; margin: 15px 0 5px; font-size: 13px; color: #888; }
-        select, input, button { width: 100%; padding: 14px; border-radius: 8px; border: 1px solid #333; background: #222; color: #fff; font-size: 16px; box-sizing: border-box; }
-        button { background: #ff0000; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        button:hover { background: #cc0000; box-shadow: 0 0 15px rgba(255,0,0,0.4); }
-        #result-box { margin-top: 25px; padding: 20px; background: #000; border-radius: 8px; min-height: 60px; text-align: center; border: 1px dashed #444; }
-        .nama-lengkap { color: #00ff00; font-weight: 800; font-size: 22px; text-transform: uppercase; display: block; margin-top: 5px; }
-        .error { color: #ff4444; font-size: 14px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0b0b0b; color: #fff; display: flex; justify-content: center; padding: 20px; }
+        .card { background: #161616; padding: 30px; border-radius: 12px; width: 100%; max-width: 450px; border: 1px solid #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.2); }
+        h2 { text-align: center; color: #ff0000; text-transform: uppercase; margin-bottom: 25px; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; font-size: 13px; color: #aaa; }
+        select, input, button { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 6px; border: 1px solid #333; background: #222; color: #fff; font-size: 16px; box-sizing: border-box; }
+        button { background: #ff0000; font-weight: bold; cursor: pointer; border: none; transition: 0.3s; }
+        button:hover { background: #cc0000; }
+        #result { text-align: center; padding: 20px; border-radius: 8px; background: #000; border: 1px dashed #444; min-height: 50px; }
+        .nama-full { color: #00ff00; font-weight: 800; font-size: 24px; text-transform: uppercase; }
+        .meta-info { font-size: 12px; color: #888; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>PREMIUM VALIDATOR</h2>
+<div class="card">
+    <h2>VALIDASI PREMIUM</h2>
     
-    <label>PILIH BANK / E-WALLET</label>
-    <select id="bank_code">
-        <optgroup label="BANK">
-            <option value="bca">BCA</option>
-            <option value="mandiri">MANDIRI</option>
-            <option value="bri">BRI</option>
-            <option value="bni">BNI</option>
-            <option value="seabank">SEABANK</option>
-            <option value="jago">BANK JAGO</option>
-        </optgroup>
-        <optgroup label="E-WALLET">
+    <label>TIPE VALIDASI</label>
+    <select id="v_type" onchange="toggleCode()">
+        <option value="bank">BANK</option>
+        <option value="ewallet">E-WALLET</option>
+        <option value="whatsapp">WHATSAPP</option>
+    </select>
+
+    <div id="code_area">
+        <label>PILIH BANK / PROVIDER</label>
+        <select id="v_code">
+            <option value="bank_bca">BCA</option>
+            <option value="bank_mandiri">MANDIRI</option>
+            <option value="bank_bri">BRI</option>
+            <option value="bank_bni">BNI</option>
+            <option value="bank_seabank">SEABANK</option>
             <option value="dana">DANA</option>
             <option value="ovo">OVO</option>
             <option value="gopay">GOPAY</option>
             <option value="shopeepay">SHOPEEPAY</option>
-        </optgroup>
-    </select>
+        </select>
+    </div>
 
-    <label>NOMOR REKENING / HP</label>
-    <input type="text" id="account_number" placeholder="Masukkan nomor...">
+    <label>NOMOR TUJUAN (TARGET)</label>
+    <input type="text" id="v_target" placeholder="Contoh: 1234567890">
     
-    <button onclick="validasiSekarang()">CEK PEMILIK REKENING</button>
+    <button onclick="prosesValidasi()">GAS CEK SEKARANG</button>
 
-    <div id="result-box">Hasil akan muncul di sini...</div>
+    <div id="result">Hasil muncul di sini...</div>
 </div>
 
 <script>
-async function validasiSekarang() {
-    const bank = document.getElementById('bank_code').value;
-    const norek = document.getElementById('account_number').value;
-    const box = document.getElementById('result-box');
+function toggleCode() {
+    const type = document.getElementById('v_type').value;
+    const codeArea = document.getElementById('code_area');
+    // WhatsApp tidak butuh parameter 'code' menurut dokumen
+    codeArea.style.display = (type === 'whatsapp') ? 'none' : 'block';
+}
 
-    if(!norek) return alert("Nomor rekening wajib diisi!");
+async function prosesValidasi() {
+    const type = document.getElementById('v_type').value;
+    const code = document.getElementById('v_code').value;
+    const target = document.getElementById('v_target').value;
+    const box = document.getElementById('result');
 
-    box.innerHTML = "<span style='color:#ff0000'>Menghubungkan ke Server...</span>";
+    if(!target) return alert("Nomor tujuan kosong!");
 
-    // KEY PREMIUM LO
-    const MY_KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
+    box.innerHTML = "<span style='color:cyan'>Sedang Memproses...</span>";
+
+    // API KEY PREMIUM LO
+    const API_KEY = "aFVBKbUGW15JPwN3to5L7DiyN0QY1syLI4p4jVQ5N0VnsgYHRs";
     
-    // BASE URL dari Gambar yang lo kirim
-    const BASE_URL = "https://use.api.co.id/v1/bank/inquiry";
-    const FULL_URL = `${BASE_URL}?bank_code=${bank}&account_number=${norek}`;
+    // ENDPOINT SESUAI DOKUMEN: https://api.apivalidasi.my.id/api/check
+    let finalURL = `https://api.apivalidasi.my.id/api/check?type=${type}&target=${target}&apikey=${API_KEY}`;
+    
+    // Kalau tipe bank/ewallet, tambahkan parameter code
+    if(type !== 'whatsapp') {
+        finalURL += `&code=${code}`;
+    }
 
-    // Kita pakai Proxy AllOrigins supaya gak kena blokir browser (CORS) saat ngetes di laptop
-    const PROXY_URL = `https://api.allorigins.win/get?url=${encodeURIComponent(FULL_URL)}`;
+    // Gunakan jembatan AllOrigins agar tidak diblokir browser saat testing lokal
+    const PROXY = "https://api.allorigins.win/get?url=" + encodeURIComponent(finalURL);
 
     try {
-        const response = await fetch(PROXY_URL);
+        const response = await fetch(PROXY);
         const wrapper = await response.json();
-        
-        // Data asli dibungkus di dalam wrapper.contents
         const res = JSON.parse(wrapper.contents);
 
-        if (res.status === "success" || res.success === true) {
-            // Karena paket lo PREMIUM, field account_name otomatis NAMA LENGKAP
-            const nama = res.data.account_name || res.data.name;
-            box.innerHTML = `NAMA PEMILIK:<br><span class="nama-lengkap">${nama}</span>`;
+        if (res.status === "SUCCESS") {
+            // Karena lo Premium, account_name bakal muncul lengkap
+            const nama = res.data.account_name || res.data.name || "TERDAFTAR";
+            box.innerHTML = `
+                NAMA TERDETEKSI:<br>
+                <span class="nama-full">${nama}</span>
+                <div class="meta-info">Latency: ${res.latency || '-'}</div>
+            `;
         } else {
-            box.innerHTML = `<span class="error">GAGAL: ${res.message || "Data tidak ditemukan"}</span>`;
+            box.innerHTML = `<span style="color:#ff4444">GAGAL: ${res.message || "Data tidak ditemukan"}</span>`;
         }
     } catch (err) {
-        box.innerHTML = "<span class='error'>SERVER ERROR!<br><small>Cek saldo di dashboard atau coba pakai Hotspot HP.</small></span>";
+        box.innerHTML = "<span style='color:red'>ERROR KONEKSI!<br><small>Cek internet atau coba lagi nanti.</small></span>";
     }
 }
 </script>
