@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tersnacks Iklan Orbit Petir</title>
+    <title>Tersnacks Iklan Orbit Petir - New Arrivals</title>
     <style>
         body {
             font-family: 'Arial Black', sans-serif;
@@ -16,20 +16,18 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            /* Efek Kilat Background */
             animation: bg-lightning 5s infinite;
         }
 
-        /* ⚡ ANIMASI PETIR BACKGROUND ⚡ */
         @keyframes bg-lightning {
             0%, 95%, 98% { background-color: #1a1a1a; }
-            96%, 99% { background-color: #333; }
+            96%, 99% { background-color: #222; }
         }
 
         .ad-system-container {
             position: relative;
-            width: 700px;
-            height: 700px;
+            width: 600px;
+            height: 600px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -43,16 +41,15 @@
         }
 
         .logo-top {
-            width: 140px;
-            margin-bottom: 20px;
+            width: 120px;
+            margin-bottom: 15px;
             cursor: pointer;
             filter: drop-shadow(0 0 10px rgba(255,165,0,0.8));
         }
 
-        /* AREA GIF DENGAN EFEK PETIR PINGGIRAN */
         .image-wrapper {
-            width: 240px;
-            height: 240px;
+            width: 220px;
+            height: 220px;
             margin: 0 auto 15px;
             overflow: hidden;
             border-radius: 12px;
@@ -62,11 +59,9 @@
             background-position: center;
             position: relative;
             box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
-            /* Efek Petir Listrik */
             animation: electric-glow 0.2s infinite alternate;
         }
 
-        /* ⚡ ANIMASI LISTRIK DI PINGGIRAN GIF ⚡ */
         @keyframes electric-glow {
             0% { border-color: #ffc107; box-shadow: 0 0 10px #ffc107; }
             100% { border-color: #fff; box-shadow: 0 0 25px #00e5ff, 0 0 10px #fff; }
@@ -81,43 +76,39 @@
             color: white;
             font-weight: bold;
             padding: 6px;
-            font-size: 1.1em;
+            font-size: 0.9em;
             text-transform: uppercase;
             animation: blink-red 0.5s infinite;
         }
 
         .central-price {
-            font-size: 32px;
+            font-size: 36px;
             color: #00ff00;
             margin: 0;
-            line-height: 1;
-            text-shadow: 0 0 10px rgba(0,255,0,0.5);
+            text-shadow: 0 0 15px rgba(0,255,0,0.7);
         }
 
         .central-product-name {
-            font-size: 1.1em;
+            font-size: 1em;
             margin: 5px 0 15px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: opacity 0.5s ease-in-out; 
-            opacity: 1;
+            transition: opacity 0.4s ease-in-out; 
             text-shadow: 2px 2px 4px #000;
+            min-height: 1.2em;
         }
         
-        .central-product-name.fade-out {
-            opacity: 0;
-        }
+        .fade-out { opacity: 0; }
 
         .btn-beli {
             display: inline-block;
             background-color: #ff4500;
             color: white;
             text-decoration: none;
-            padding: 12px 30px;
+            padding: 10px 25px;
             border-radius: 50px;
-            font-size: 1em;
+            font-size: 0.9em;
             font-weight: bold;
-            transition: transform 0.2s;
             border: 2px solid #fff;
             animation: btn-flash 0.8s infinite;
         }
@@ -125,24 +116,24 @@
         /* ORBIT SYSTEM */
         .orbit-container {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 500px;
+            height: 500px;
             border-radius: 50%;
-            border: 2px dashed rgba(0, 229, 255, 0.2); /* Cincin warna listrik */
-            animation: orbit-rotate 30s linear infinite;
+            border: 1px dashed rgba(0, 229, 255, 0.3);
+            animation: orbit-rotate 25s linear infinite;
         }
 
         .orbit-item {
             position: absolute;
-            width: 70px;
-            height: 70px;
-            border-radius: 10px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
             background-color: white;
             border: 3px solid #ffc107;
             overflow: hidden;
             transform: translate(-50%, -50%);
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .orbit-item img {
@@ -151,31 +142,27 @@
             object-fit: cover;
         }
 
-        /* HIGHLIGHT PETIR PADA PRODUK */
         .orbit-item.highlight {
-            transform: translate(-50%, -50%) scale(1.4);
-            z-index: 5;
-            box-shadow: 0 0 20px #00e5ff, 0 0 40px #fff;
+            transform: translate(-50%, -50%) scale(1.6);
+            z-index: 20;
+            box-shadow: 0 0 30px #00e5ff, 0 0 10px #fff;
             border-color: #00e5ff;
         }
 
         @keyframes blink-red {
-            0% { background: #ff0000; }
-            50% { background: #ffc107; color: #000; } /* Campur kuning biar silau */
-            100% { background: #ff0000; }
+            0%, 100% { background: #ff0000; }
+            50% { background: #ffc107; color: #000; }
         }
 
         @keyframes btn-flash {
-            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 69, 0, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 69, 0, 0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 69, 0, 0.4); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         @keyframes orbit-rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-
     </style>
 </head>
 <body>
@@ -189,7 +176,7 @@
             </a>
 
             <div class="image-wrapper">
-                <div class="promo-tag">CHECKOUT SEBELUM HABIS</div>
+                <div class="promo-tag">NEW ARRIVAL!</div>
             </div>
 
             <div class="central-info">
@@ -197,35 +184,33 @@
                 <div id="central-product-name" class="central-product-name">LOADING...</div>
                 
                 <a href="https://tersnacks.pages.dev" target="_blank" class="btn-beli">
-                    BELI SEKARANG
+                    ORDER SEKARANG
                 </a>
             </div>
         </div>
     </div>
 
     <script>
+        // DATA PRODUK BARU
         const products = [
-            { id: 0, name: "KACANG TOJIN", img: "https://i.postimg.cc/MZbTnf6L/184f7bee-21ba-4477-81c6-c9f7acfb487a.jpg" },
-            { id: 1, name: "KETAWA", img: "https://i.postimg.cc/ncFLBVMD/b95988fe-979d-48c6-891c-900e8f3e42f1.jpg" },
-            { id: 2, name: "KACANG TING TING", img: "https://i.postimg.cc/hP2trF7k/ab4902a9-b072-4159-8ebb-3fbf45c8fc0b.jpg" },
-            { id: 3, name: "MIE LIDI", img: "https://i.postimg.cc/K84vp9Pc/5bb5bc5e-cf70-47c1-86c5-dbd05e0cc616.jpg" },
-            { id: 4, name: "MAKARONI", img: "https://i.postimg.cc/9f7XCrgJ/9c04e078-ee93-4550-8310-851e9a34d691.jpg" },
-            { id: 5, name: "BASRENG", img: "https://i.postimg.cc/gjYGV4z5/601de701-a9b5-4bbf-8aa6-87b171349a64.jpg" },
-            { id: 6, name: "LUMPIA", img: "https://i.postimg.cc/ZYcbbkj9/38611567-5f9f-4899-9d33-cffa77b5e469.jpg" },
-            { id: 7, name: "KACANG ARAB", img: "https://i.postimg.cc/sDgV1n09/16ad7cba-62a3-48d4-a52c-25fe2f379b5e.jpg" },
-            { id: 8, name: "KACANG MADU", img: "https://i.postimg.cc/sDH3Wpk1/129f1f36-b98b-4f99-bdde-93c543eb32e8.jpg" }
+            { id: 1, name: "KUE SUS KERING COKLAT", img: "https://i.postimg.cc/nLX3vcfH/5a308155-4a39-40bc-b5ff-6c53942c6446.jpg" },
+            { id: 2, name: "KERIPIK BALADO PADANG", img: "https://i.postimg.cc/7LprzWcc/fc5d75bb-8868-4c74-80b9-289bc86bb0c1.jpg" },
+            { id: 3, name: "KUE BAWANG", img: "https://i.postimg.cc/W496fRjy/1904dff8-56e9-48b2-83c4-57a376284b27.jpg" },
+            { id: 4, name: "UNTIR UNTIR", img: "https://i.postimg.cc/3Rd6tFMx/09220392-ad87-478d-9fcf-0c67b1ba6cfb.jpg" },
+            { id: 5, name: "BASRENG ORIGINAL", img: "https://i.postimg.cc/sxBMf8kX/3428ff40-8068-4717-baf3-0bc8ffe5ef7f.jpg" }
         ];
 
         let currentIndex = 0;
         const orbitRing = document.getElementById('orbit-ring');
         const centralNameEl = document.getElementById('central-product-name');
 
+        // Render Orbit Items
         const totalItems = products.length;
         products.forEach((product, i) => {
             const angle = (i / totalItems) * Math.PI * 2;
-            const radius = 300; 
-            const x = 300 + radius * Math.cos(angle);
-            const y = 300 + radius * Math.sin(angle);
+            const radius = 250; 
+            const x = 250 + radius * Math.cos(angle);
+            const y = 250 + radius * Math.sin(angle);
 
             const orbitItem = document.createElement('div');
             orbitItem.className = 'orbit-item';
@@ -235,7 +220,6 @@
             
             const img = document.createElement('img');
             img.src = product.img;
-            img.alt = product.name;
             orbitItem.appendChild(img);
 
             orbitRing.appendChild(orbitItem);
@@ -257,11 +241,11 @@
                 }
 
                 currentIndex = (currentIndex + 1) % products.length;
-            }, 500); 
+            }, 400); 
         }
 
         updateDisplay();
-        setInterval(updateDisplay, 3500);
+        setInterval(updateDisplay, 3000); // Ganti produk tiap 3 detik
     </script>
 </body>
 </html>
