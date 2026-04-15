@@ -2,153 +2,101 @@
 <html ⚡ lang="id">
 <head>
   <meta charset="utf-8">
-  <title>Warisan Nusantara - The 5 Seasons of Snacks</title>
-  <link rel="canonical" href="https://websitemu.com/ultimate-snack-experience">
+  <title>Warisan Nusantara - Ultimate Experience</title>
+  <link rel="canonical" href="https://websitemu.com">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  
   <script async src="https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
   <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
   <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
-  <script async custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
 
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
 
   <style amp-custom>
-    :root { --primary: #fff; }
-    body { font-family: 'Inter', sans-serif; background: #000; color: #fff; margin: 0; overflow: hidden; }
+    body { font-family: 'Inter', sans-serif; background: #000; margin: 0; overflow: hidden; color: #fff; }
+    .stage { position: relative; height: 100vh; width: 100%; }
 
-    /* LAYERING SYSTEM */
-    .viewport { position: relative; height: 100vh; width: 100%; overflow: hidden; }
-
-    /* LAYER 1: Dynamic Background (Immersive) */
-    .bg-layer { position: absolute; width: 100%; height: 100%; z-index: 1; }
-    .bg-image { opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
-    .bg-active { opacity: 0.6; } /* Background tidak terlalu terang agar produk menonjol */
-
-    /* LAYER 2: Particle System (SVG) */
-    .particle-container { position: absolute; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
-    .snack-particle { fill: #fff; opacity: 0; }
-
-    /* LAYER 3: Gradient Overlay (Professional Look) */
-    .overlay { position: absolute; width: 100%; height: 100%; z-index: 3; 
-      background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 40%, rgba(0,0,0,0.9) 100%); }
-
-    /* LAYER 4: Content (Product & Text) */
-    header { position: absolute; top: 0; width: 100%; padding: 40px 0; text-align: center; z-index: 10; }
-    .logo { letter-spacing: 8px; font-weight: 900; text-transform: uppercase; font-size: 0.8rem; opacity: 0.8; }
-
-    .main-carousel { height: 100vh; z-index: 5; }
-    .slide { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    /* LAYER 1: CROSSFADE BACKGROUND */
+    .bg-frame { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1.5s ease-in-out; z-index: 1; }
+    .active-bg { opacity: 0.7; }
     
-    .product-img { 
-      width: 80%; max-width: 400px; 
-      filter: drop-shadow(0 30px 50px rgba(0,0,0,0.8));
-      transform: translateY(20px); transition: transform 0.8s ease;
-    }
-    .slide[visible] .product-img { transform: translateY(0px) scale(1.05); }
+    /* LAYER 2: PARTICLE ENGINE (SVG) */
+    .particles { position: absolute; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+    .p-item { fill: #fff; }
 
-    .info { position: absolute; bottom: 120px; text-align: center; width: 100%; z-index: 10; }
-    .title { font-size: 2rem; font-weight: 900; margin: 0; letter-spacing: -1px; text-transform: uppercase; }
-    .desc { font-size: 0.9rem; opacity: 0.6; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
+    /* LAYER 3: CONTENT & UI */
+    .content-overlay { position: absolute; width: 100%; height: 100%; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, transparent, rgba(0,0,0,0.8)); }
+    .carousel-container { width: 100%; height: 60vh; }
+    .snack-img { filter: drop-shadow(0 20px 50px rgba(0,0,0,1)); }
+    
+    .text-box { text-align: center; margin-top: -50px; }
+    .title { font-size: 2.5rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; margin: 0; }
+    .tagline { color: #ffd700; font-weight: bold; letter-spacing: 3px; font-size: 0.8rem; }
 
-    /* CTA BUTTON: Level Maksimum */
-    .cta-wrap { position: fixed; bottom: 40px; width: 100%; display: flex; justify-content: center; z-index: 100; }
-    .btn { 
-      background: #fff; color: #000; padding: 20px 60px; border-radius: 100px; 
-      font-weight: 900; text-decoration: none; text-transform: uppercase; font-size: 0.8rem;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-      transition: all 0.3s ease;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); box-shadow: 0 25px 50px rgba(255,255,255,0.2); }
-      100% { transform: scale(1); }
-    }
+    /* CTA */
+    .btn-buy { margin-top: 30px; background: #fff; color: #000; padding: 18px 50px; border-radius: 50px; font-weight: 800; text-decoration: none; box-shadow: 0 10px 30px rgba(255,255,255,0.2); animation: pulse 2s infinite; }
+    @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
   </style>
 </head>
 <body>
 
-  <amp-state id="state">
+  <amp-state id="view">
     <script type="application/json">
       {
         "index": 0,
         "items": [
-          { "id": 0, "name": "Kue Sus Coklat", "tag": "CHOCO-RAIN", "img": "sus.png", "bg": "choco_bg.jpg", "pType": "circle" },
-          { "id": 1, "name": "Balado Padang", "tag": "SPICY-AUTUMN", "img": "balado.png", "bg": "balado_bg.jpg", "pType": "rect" },
-          { "id": 2, "name": "Kue Bawang Medan", "tag": "GOLDEN-HOUR", "img": "bawang.png", "bg": "bawang_bg.jpg", "pType": "rect" },
-          { "id": 3, "name": "Untir-Untir", "tag": "TWIST-FALL", "img": "untir.png", "bg": "untir_bg.jpg", "pType": "path" },
-          { "id": 4, "name": "Basreng Daun Jeruk", "tag": "BLIZZARD", "img": "basreng.png", "bg": "basreng_bg.jpg", "pType": "circle" }
+          { "name": "Kue Sus Coklat", "theme": "HUJAN COKLAT", "bg": "sus_bg.jpg" },
+          { "name": "Balado Padang", "theme": "BADAI PEDAS", "bg": "balado_bg.jpg" },
+          { "name": "Kue Bawang", "theme": "DAUN GUGUR", "bg": "bawang_bg.jpg" },
+          { "name": "Untir Untir", "theme": "SALJU MANIS", "bg": "untir_bg.jpg" },
+          { "name": "Basreng Original", "theme": "CERAH MERONA", "bg": "basreng_bg.jpg" }
         ]
       }
     </script>
   </amp-state>
 
-  <div class="viewport">
+  <div class="stage">
     
-    <div class="bg-layer">
-      <amp-img src="choco_bg.jpg" layout="fill" class="bg-image" [class]="'bg-image ' + (state.index == 0 ? 'bg-active' : '')"></amp-img>
-      <amp-img src="balado_bg.jpg" layout="fill" class="bg-image" [class]="'bg-image ' + (state.index == 1 ? 'bg-active' : '')"></amp-img>
-      <amp-img src="bawang_bg.jpg" layout="fill" class="bg-image" [class]="'bg-image ' + (state.index == 2 ? 'bg-active' : '')"></amp-img>
-      <amp-img src="untir_bg.jpg" layout="fill" class="bg-image" [class]="'bg-image ' + (state.index == 3 ? 'bg-active' : '')"></amp-img>
-      <amp-img src="basreng_bg.jpg" layout="fill" class="bg-image" [class]="'bg-image ' + (state.index == 4 ? 'bg-active' : '')"></amp-img>
-    </div>
+    <div class="bg-frame" [class]="'bg-frame ' + (view.index == 0 ? 'active-bg' : '')"><amp-img src="sus_bg.jpg" layout="fill"></amp-img></div>
+    <div class="bg-frame" [class]="'bg-frame ' + (view.index == 1 ? 'active-bg' : '')"><amp-img src="balado_bg.jpg" layout="fill"></amp-img></div>
+    <div class="bg-frame" [class]="'bg-frame ' + (view.index == 2 ? 'active-bg' : '')"><amp-img src="bawang_bg.jpg" layout="fill"></amp-img></div>
+    <div class="bg-frame" [class]="'bg-frame ' + (view.index == 3 ? 'active-bg' : '')"><amp-img src="untir_bg.jpg" layout="fill"></amp-img></div>
+    <div class="bg-frame" [class]="'bg-frame ' + (view.index == 4 ? 'active-bg' : '')"><amp-img src="basreng_bg.jpg" layout="fill"></amp-img></div>
 
-    <div class="overlay"></div>
-
-    <svg class="particle-container" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <g id="particles">
-        <circle class="snack-particle" cx="20" cy="-10" r="1" />
-        <rect class="snack-particle" x="40" y="-15" width="2" height="5" />
-        <circle class="snack-particle" cx="60" cy="-20" r="1.5" />
-        <rect class="snack-particle" x="80" y="-10" width="3" height="2" />
-        </g>
+    <svg class="particles" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <g id="particle-group">
+        <circle class="p-item" cx="10" cy="-10" r="1.5" />
+        <path class="p-item" d="M30 -10 L32 -5 L30 0 L28 -5 Z" /> <rect class="p-item" x="50" y="-20" width="1" height="4" /> <circle class="p-item" cx="70" cy="-15" r="0.8" />
+        <path class="p-item" d="M90 -10 L94 -10 L92 -5 Z" /> </g>
     </svg>
 
-    <header>
-      <div class="logo">Warisan Nusantara</div>
-    </header>
+    <div class="content-overlay">
+      <amp-carousel class="carousel-container" type="slides" layout="fill" autoplay delay="3000"
+        on="slideChange:AMP.setState({view: {index: event.index}})">
+        <div class="slide"><amp-img src="sus_pro.png" width="350" height="350" layout="responsive" class="snack-img"></amp-img></div>
+        <div class="slide"><amp-img src="balado_pro.png" width="350" height="350" layout="responsive" class="snack-img"></amp-img></div>
+        <div class="slide"><amp-img src="bawang_pro.png" width="350" height="350" layout="responsive" class="snack-img"></amp-img></div>
+        <div class="slide"><amp-img src="untir_pro.png" width="350" height="350" layout="responsive" class="snack-img"></amp-img></div>
+        <div class="slide"><amp-img src="basreng_pro.png" width="350" height="350" layout="responsive" class="snack-img"></amp-img></div>
+      </amp-carousel>
 
-    <amp-carousel class="main-carousel" layout="fill" type="slides" 
-      on="slideChange:AMP.setState({state: {index: event.index}})">
-      
-      <div class="slide">
-        <amp-img class="product-img" src="sus_coklat_pro.png" width="400" height="400" layout="responsive"></amp-img>
+      <div class="text-box">
+        <p class="tagline" [text]="view.items[view.index].theme">HUJAN COKLAT</p>
+        <h1 class="title" [text]="view.items[view.index].name">Kue Sus Coklat</h1>
+        <a href="#" class="btn-buy">ORDER SEKARANG</a>
       </div>
-      <div class="slide">
-        <amp-img class="product-img" src="balado_padang_pro.png" width="400" height="400" layout="responsive"></amp-img>
-      </div>
-      <div class="slide">
-        <amp-img class="product-img" src="kue_bawang_medan_pro.png" width="400" height="400" layout="responsive"></amp-img>
-      </div>
-      <div class="slide">
-        <amp-img class="product-img" src="untir_pro.png" width="400" height="400" layout="responsive"></amp-img>
-      </div>
-      <div class="slide">
-        <amp-img class="product-img" src="basreng_daunjeruk_pro.png" width="400" height="400" layout="responsive"></amp-img>
-      </div>
-    </amp-carousel>
-
-    <div class="info">
-      <p class="desc" [text]="state.items[state.index].tag">CHOCO-RAIN</p>
-      <h2 class="title" [text]="state.items[state.index].name">Kue Sus Coklat</h2>
     </div>
-
-    <div class="cta-wrap">
-      <a href="https://websitemu.com" class="btn">Beli Sekarang</a>
-    </div>
-
   </div>
 
-  <amp-animation id="rainAnim" layout="nodisplay" trigger="visibility">
+  <amp-animation id="engine" layout="nodisplay" trigger="visibility">
     <script type="application/json">
       {
-        "selector": ".snack-particle",
-        "duration": "2s",
+        "selector": ".p-item",
+        "duration": "2.5s",
         "iterations": "infinite",
         "keyframes": [
           { "transform": "translateY(0) rotate(0deg)", "opacity": 0 },
-          { "transform": "translateY(100vh) rotate(360deg)", "opacity": 1 }
+          { "transform": "translateY(110vh) rotate(720deg)", "opacity": 1 }
         ],
         "delay": "rand(0, 2s)"
       }
