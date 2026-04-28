@@ -1,122 +1,418 @@
-<!doctype html>
-<html ⚡ lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="utf-8">
-  <title>5 Seasons Snack - Ultimate Experience</title>
-  <link rel="canonical" href="https://websitemu.com">
-  <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-  <script async src="https://cdn.ampproject.org/v0.js"></script>
-  <script async custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js"></script>
-  <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
-  <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERSNACKS.ID - PREMIUM QUALITY</title>
+    <style>
+        :root { 
+            /* TEMA MUSIM GUGUR */
+            --primary: #ff8c00; /* Dark Orange */
+            --glass: rgba(43, 24, 16, 0.9); /* Warm Dark Brown */
+            --success: #ffd700; /* Gold */
+            --danger: #b22222; /* Firebrick */
+            --gold: #ffea00;
+            --leaf-1: #d35400;
+            --leaf-2: #e67e22;
+            --leaf-3: #f1c40f;
+        }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; background: #1a0f0a; color: white; 
+            text-align: center; padding-bottom: 50px; overflow-x: hidden; 
+        }
 
-  <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+        #rainCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
 
-  <style amp-custom>
-    body { background: #000; margin: 0; color: #fff; font-family: 'Arial Black', sans-serif; overflow: hidden; }
-    .stage { position: relative; height: 100vh; width: 100%; background: #000; }
+        header { 
+            position: relative; 
+            z-index: 10; padding: 45px 10px; 
+            background: var(--glass); border-bottom: 2px solid var(--primary); 
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.2);
+        }
+        
+        .logo-header { 
+            width: 280px; margin-bottom: 10px; 
+            filter: drop-shadow(0 0 10px var(--primary)); 
+        }
+        
+        header p { 
+            margin: 0; font-size: 0.85em; font-weight: 900; 
+            letter-spacing: 2px; color: var(--primary); 
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), #fff, var(--primary));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
 
-    /* LAYER 1: BACKGROUNDS */
-    .bg-frame { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; z-index: 1; }
-    .bg-active { opacity: 0.7; }
-    .bg-frame amp-img img { object-fit: cover; }
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
 
-    /* LAYER 2: RAIN EFFECTS (Z-INDEX 10) */
-    .rain-system { position: absolute; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
-    .rain-grp { display: none; }
-    .active-rain { display: block; }
-    .p-item { opacity: 0; }
+        .kentang-left {
+            position: absolute;
+            bottom: 0;      
+            left: 10px;    
+            width: 130px; 
+            z-index: 11;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px var(--primary));
+        }
 
-    /* LAYER 3: UI CONTENT (Z-INDEX 20) */
-    .content { position: absolute; width: 100%; height: 100%; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .carousel { width: 100%; height: 60vh; }
-    .prod-view { filter: drop-shadow(0 20px 50px rgba(0,0,0,1)); }
-    
-    .label-box { text-align: center; margin-top: -30px; }
-    .badge { background: #FFD700; color: #000; padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 0.7rem; }
-    .product-name { font-size: 2.5rem; margin: 10px 0; text-transform: uppercase; text-shadow: 3px 3px 10px #000; }
-  </style>
+        .kentang-right {
+            position: absolute;
+            bottom: 0;     
+            right: 10px;  
+            width: 130px;   
+            z-index: 11;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px var(--primary));
+        }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 12px; 
+            padding: 15px; 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            position: relative; 
+            z-index: 10; 
+        }
+        
+        .card { 
+            background: var(--glass); border-radius: 15px; overflow: hidden; 
+            border: 1px solid rgba(255, 140, 0, 0.2); position: relative; 
+            transition: 0.3s;
+        }
+        .card img { width: 100%; height: 130px; object-fit: cover; }
+        
+        .sold-out-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 130px; 
+            background: rgba(0,0,0,0.8); display: none; align-items: center; 
+            justify-content: center; z-index: 5;
+        }
+        .is-empty .sold-out-overlay { display: flex; }
+
+        .so-text { 
+            color: white; background: var(--danger); padding: 5px 15px; 
+            font-weight: 900; transform: rotate(-15deg); 
+            border: 2px solid white; font-size: 0.8em; 
+        }
+
+        .card-info { padding: 10px; }
+        .card-name { 
+            font-size: 0.75em; font-weight: 800; color: var(--primary); 
+            height: 35px; display: flex; align-items: center; 
+            justify-content: center; text-transform: uppercase; 
+        }
+        
+        .stock-tag { 
+            font-size: 0.65em; color: var(--primary); 
+            background: rgba(255, 140, 0, 0.1); border-radius: 5px; 
+            padding: 2px 8px; display: inline-block; 
+            margin-bottom: 10px; font-weight: 900;
+        }
+
+        .counter { display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-qty { 
+            background: rgba(255,255,255,0.1); border: 1px solid var(--primary); 
+            width: 30px; height: 30px; border-radius: 8px; color: white; cursor: pointer; 
+        }
+        
+        .btn-qty:disabled {
+            border-color: #444;
+            color: #444;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        #total-bar { 
+            position: fixed; bottom: 0; left: 0; right: 0; 
+            background: var(--glass); padding: 18px 25px; display: none; 
+            justify-content: space-between; align-items: center; 
+            border-top: 2px solid var(--primary); z-index: 1000; 
+            backdrop-filter: blur(10px); 
+        }
+        .btn-order { 
+            background: var(--primary); color: black; border: none; 
+            padding: 12px 25px; border-radius: 12px; font-weight: 900; cursor: pointer; 
+        }
+
+        #payment-area { 
+            position: relative; z-index: 10; display:none; padding: 40px 20px; 
+            background: rgba(26, 15, 10, 0.98); border-top: 2px solid var(--primary); 
+        }
+        .input-nama { 
+            width: 85%; padding: 15px; border-radius: 12px; 
+            border: 1px solid var(--primary); background: transparent; 
+            color: white; margin-bottom: 25px; text-align: center; font-weight: 800; 
+        }
+        
+        .pay-options { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
+        .opt-btn { 
+            background: transparent; border: 2px solid var(--primary); color: white; 
+            padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: 900; 
+        }
+        .opt-btn.active { background: var(--primary); color: black; }
+
+        .qr-display { display: none; justify-content: center; margin-bottom: 30px; }
+        .qr-box { background: white; padding: 12px; border-radius: 15px; width: 200px; }
+        .qr-box img { width: 100%; border-radius: 5px; }
+        .qr-label { color: black; font-size: 0.8em; font-weight: 900; margin-top: 8px; }
+
+        .final-btn { 
+            background: var(--success); color: #000; padding: 18px; 
+            border: none; border-radius: 50px; font-weight: 900; 
+            width: 90%; cursor: pointer; 
+        }
+
+        footer { 
+            position: relative; z-index: 10; margin-top: 60px; 
+            padding: 50px 20px; border-top: 1px solid rgba(255, 140, 0, 0.2); 
+            background: rgba(43, 24, 16, 0.6); 
+        }
+
+        @media (max-width: 600px) { 
+            .grid { grid-template-columns: repeat(2, 1fr); } 
+            .kentang-left { width: 90px; bottom: -15px; left: 10px; } 
+            .kentang-right { width: 90px; bottom: -15px; right: 10px; } 
+        }
+    </style>
 </head>
-<body>
+<body>  
 
-  <amp-state id="st">
-    <script type="application/json">
-      {
-        "idx": 0,
-        "items": [
-          {"n": "Sus Coklat", "e": "HUJAN COKLAT", "bg": "https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/7"},
-          {"n": "Balado Padang", "e": "BADAI PEDAS", "bg": "https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/12"},
-          {"n": "Kue Bawang", "e": "DAUN GUGUR", "bg": "https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/13"},
-          {"n": "Untir Untir", "e": "SALJU GULA", "bg": "https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/10"},
-          {"n": "Basreng Stick", "e": "CERAH JERUK", "bg": "https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/14"}
-        ]
-      }
-    </script>
-  </amp-state>
+<canvas id="rainCanvas"></canvas>
 
-  <div class="stage">
-    <div class="bg-frame" [class]="'bg-frame ' + (st.idx == 0 ? 'bg-active' : '')"><amp-img src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/7" layout="fill" alt="BG1"></amp-img></div>
-    <div class="bg-frame" [class]="'bg-frame ' + (st.idx == 1 ? 'bg-active' : '')"><amp-img src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/12" layout="fill" alt="BG2"></amp-img></div>
-    <div class="bg-frame" [class]="'bg-frame ' + (st.idx == 2 ? 'bg-active' : '')"><amp-img src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/13" layout="fill" alt="BG3"></amp-img></div>
-    <div class="bg-frame" [class]="'bg-frame ' + (st.idx == 3 ? 'bg-active' : '')"><amp-img src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/10" layout="fill" alt="BG4"></amp-img></div>
-    <div class="bg-frame" [class]="'bg-frame ' + (st.idx == 4 ? 'bg-active' : '')"><amp-img src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/14" layout="fill" alt="BG5"></amp-img></div>
+<header>
+    <img src="https://i.postimg.cc/T3Dj51gC/download.png" class="logo-header">
+    <h2 style="margin:0; font-size: 1.4em; font-weight: 900;">TERSNACKS.ID</h2>
+    <p>PREMIUM QUALITY • $3.00</p>
+    
+    <img src="https://i.postimg.cc/wMKm57LB/output-onlinegiftools.gif" class="kentang-left" alt="Kentang Payung Kiri">
+    <img src="https://i.postimg.cc/T1rdWcrD/output-onlinegiftools-(1).gif" class="kentang-right" alt="Kentang Outline Kanan">
+</header>
 
-    <svg class="rain-system" viewBox="0 0 100 100" preserveAspectRatio="none">
-      <g class="rain-grp" [class]="'rain-grp ' + (st.idx == 0 ? 'active-rain' : '')">
-        <circle class="p-item" fill="#3E2723" cx="20" cy="-10" r="1.5" />
-        <circle class="p-item" fill="#3E2723" cx="50" cy="-20" r="2" />
-        <circle class="p-item" fill="#3E2723" cx="80" cy="-5" r="1.2" />
-      </g>
-      <g class="rain-grp" [class]="'rain-grp ' + (st.idx == 1 ? 'active-rain' : '')">
-        <rect class="p-item" fill="#D32F2F" x="25" y="-15" width="1" height="8" />
-        <rect class="p-item" fill="#D32F2F" x="55" y="-5" width="1.2" height="10" />
-        <rect class="p-item" fill="#D32F2F" x="85" y="-20" width="0.8" height="6" />
-      </g>
-      <g class="rain-grp" [class]="'rain-grp ' + (st.idx == 2 ? 'active-rain' : '')">
-        <path class="p-item" fill="#C0CA33" d="M30,-10 Q35,-5 30,0 Q25,-5 30,-10" />
-        <path class="p-item" fill="#C0CA33" d="M70,-20 Q75,-15 70,-10 Q65,-15 70,-20" />
-      </g>
-      <g class="rain-grp" [class]="'rain-grp ' + (st.idx == 3 ? 'active-rain' : '')">
-        <circle class="p-item" fill="#FFF" cx="40" cy="-5" r="0.5" />
-        <circle class="p-item" fill="#FFF" cx="60" cy="-15" r="0.7" />
-      </g>
-      <g class="rain-grp" [class]="'rain-grp ' + (st.idx == 4 ? 'active-rain' : '')">
-        <rect class="p-item" fill="#4CAF50" x="20" y="-10" width="2" height="2" rx="1" />
-        <rect class="p-item" fill="#4CAF50" x="80" y="-15" width="2" height="2" rx="1" />
-      </g>
-    </svg>
+<div id="loading" style="padding: 50px; color: var(--primary); font-weight: 800;">SYNCING STOCK...</div>
+<div class="grid" id="container-snack"></div>
 
-    <div class="content">
-      <amp-carousel class="carousel" type="slides" layout="fill" autoplay delay="3000"
-        on="slideChange:AMP.setState({st: {idx: event.index}})">
-        <div class="slide"><amp-img class="prod-view" src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/7" width="300" height="300" layout="responsive"></amp-img></div>
-        <div class="slide"><amp-img class="prod-view" src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/12" width="300" height="300" layout="responsive"></amp-img></div>
-        <div class="slide"><amp-img class="prod-view" src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/13" width="300" height="300" layout="responsive"></amp-img></div>
-        <div class="slide"><amp-img class="prod-view" src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/10" width="300" height="300" layout="responsive"></amp-img></div>
-        <div class="slide"><amp-img class="prod-view" src="https://i.postimg.cc/W3hVdfVD/5363656f-925f-4883-916d-9e528c69b4b0.jpg/14" width="300" height="300" layout="responsive"></amp-img></div>
-      </amp-carousel>
-
-      <div class="label-box">
-        <span class="badge" [text]="st.items[st.idx].e">HUJAN COKLAT</span>
-        <h2 class="product-name" [text]="st.items[st.idx].n">Sus Coklat</h2>
-      </div>
+<div id="total-bar">
+    <div style="text-align:left">
+        <div id="summary" style="font-size: 0.65em; color: #ccc;"></div>
+        <div id="display-total" style="font-weight: 900; color: var(--primary); font-size: 1.4em;">$0.00</div>
     </div>
-  </div>
+    <button class="btn-order" onclick="openPayment()">ORDER SEKARANG</button>
+</div>
 
-  <amp-animation id="falling" layout="nodisplay" trigger="visibility">
-    <script type="application/json">
-      {
-        "selector": ".p-item",
-        "duration": "2.5s",
-        "iterations": "infinite",
-        "keyframes": [
-          { "transform": "translateY(0vh) rotate(0deg)", "opacity": 0 },
-          { "transform": "translateY(110vh) rotate(360deg)", "opacity": 1 }
-        ],
-        "delay": "rand(0, 2s)"
-      }
-    </script>
-  </amp-animation>
+<div id="payment-area">
+    <h3 style="color: var(--primary); font-weight: 900;">DATA PEMBELI</h3>
+    <input type="text" id="nama-pembeli" class="input-nama" placeholder="SIAPA NAMA ANDA?">
+    
+    <p style="font-size: 0.8em; font-weight: 800; margin-bottom: 15px;">PILIH METODE PEMBAYARAN:</p>
+    <div class="pay-options">
+        <button class="opt-btn" id="btn-riel" onclick="showQR('riel')">RIEL</button>
+        <button class="opt-btn" id="btn-usd" onclick="showQR('usd')">USD</button>
+    </div>
 
+    <div id="qr-riel" class="qr-display">
+        <div class="qr-box">
+            <img src="https://i.postimg.cc/xC8S9kSY/83ab8373-93bf-4620-9f16-ed523851faa0.jpg">
+            <div class="qr-label">BARCODE RIEL</div>
+        </div>
+    </div>
+
+    <div id="qr-usd" class="qr-display">
+        <div class="qr-box">
+            <img src="https://i.postimg.cc/PJGhKtBT/USD.jpg">
+            <div class="qr-label">BARCODE USD</div>
+        </div>
+    </div>
+
+    <button id="submit-btn" onclick="sendToSpreadsheet()" class="final-btn">KONFIRMASI & KIRIM</button>
+</div>
+
+<footer>
+    <h3 style="color: var(--primary); letter-spacing: 2px; margin-bottom: 10px; font-weight: 900; font-size: 1.1em;">THANK YOU FOR SHOPPING!</h3>
+    <div style="color: #fff; font-size: 0.9em; font-weight: 700; opacity: 0.8;">TERIMA KASIH SUDAH BERBELANJA DI TERSNACKS.ID</div>
+    <div style="margin-top: 25px; opacity: 0.3; font-size: 0.6em; letter-spacing: 5px; font-weight: 900;">TERSNACKS.ID • 2026</div>
+</footer>
+
+<script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbykBwYZX2poPZx2-7gxtfnlrg0N5BW29lkdYOKeaelaGapyKi3NHQHUYDMoA1XTGTjO/exec";
+
+    /* ANIMASI DAUN GUGUR (AUTUMN LEAVES) */
+    const canvas = document.getElementById('rainCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let leaves = [];
+    const leafColors = ['#d35400', '#e67e22', '#f1c40f', '#c0392b'];
+
+    for (let i = 0; i < 40; i++) {
+        leaves.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 8 + 5,
+            color: leafColors[Math.floor(Math.random() * leafColors.length)],
+            speed: Math.random() * 2 + 1,
+            swing: Math.random() * 2,
+            swingSpeed: Math.random() * 0.05
+        });
+    }
+
+    function drawLeaves() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        leaves.forEach(l => {
+            ctx.fillStyle = l.color;
+            ctx.beginPath();
+            // Gambar bentuk oval sederhana sebagai daun
+            ctx.ellipse(l.x + Math.sin(l.swing) * 20, l.y, l.size, l.size/2, l.swing, 0, Math.PI * 2);
+            ctx.fill();
+            
+            l.y += l.speed;
+            l.swing += l.swingSpeed;
+            
+            if (l.y > canvas.height) {
+                l.y = -20;
+                l.x = Math.random() * canvas.width;
+            }
+        });
+        requestAnimationFrame(drawLeaves);
+    }
+    drawLeaves();
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    let snackData = [
+        { id: 0, name: "KACANG TOJIN", stock: 0, img: "https://i.postimg.cc/MZbTnf6L/184f7bee-21ba-4477-81c6-c9f7acfb487a.jpg" },
+        { id: 1, name: "KETAWA", stock: 0, img: "https://i.postimg.cc/ncFLBVMD/b95988fe-979d-48c6-891c-900e8f3e42f1.jpg" },
+        { id: 2, name: "KACANG TING TING", stock: 0, img: "https://i.postimg.cc/hP2trF7k/ab4902a9-b072-4159-8ebb-3fbf45c8fc0b.jpg" },
+        { id: 3, name: "KUE SUS KERING COKLAT", stock: 0, img: "https://i.postimg.cc/nLX3vcfH/5a308155-4a39-40bc-b5ff-6c53942c6446.jpg" },
+        { id: 4, name: "MAKARONI", stock: 0, img: "https://i.postimg.cc/9f7XCrgJ/9c04e078-ee93-4550-8310-851e9a34d691.jpg" },
+        { id: 5, name: "BASRENG PEDAS", stock: 0, img: "https://i.postimg.cc/gjYGV4z5/601de701-a9b5-4bbf-8aa6-87b171349a64.jpg" },
+        { id: 6, name: "LUMPIA", stock: 0, img: "https://i.postimg.cc/ZYcbbkj9/38611567-5f9f-4899-9d33-cffa77b5e469.jpg" },
+        { id: 7, name: "KACANG ARAB", stock: 0, img: "https://i.postimg.cc/sDgV1n09/16ad7cba-62a3-48d4-a52c-25fe2f379b5e.jpg" },
+        { id: 8, name: "KACANG TELUR", stock: 0, img: "https://i.postimg.cc/nLXR3qKF/a380402e-538b-431d-bc8e-5b332b2fbe5f.jpg" },
+        { id: 9, name: "KERIPIK BALADO PADANG", stock: 0, img: "https://i.postimg.cc/7LprzWcc/fc5d75bb-8868-4c74-80b9-289bc86bb0c1.jpg" },
+        { id: 10, name: "KUE BAWANG", stock: 0, img: "https://i.postimg.cc/W496fRjy/1904dff8-56e9-48b2-83c4-57a376284b27.jpg" },
+        { id: 11, name: "UNTIR UNTIR", stock: 0, img: "https://i.postimg.cc/3Rd6tFMx/09220392-ad87-478d-9fcf-0c67b1ba6cfb.jpg" },
+        { id: 12, name: "BASRENG ORIGINAL", stock: 0, img: "https://i.postimg.cc/sxBMf8kX/3428ff40-8068-4717-baf3-0bc8ffe5ef7f.jpg" },
+        { id: 13, name: "KERIPIK SIBOLGA", stock: 0, img: "https://i.postimg.cc/jjf59hns/bb339866-ab21-4add-b6b9-fc425b13e4da.jpg" } 
+    ];
+
+    let cart = {};
+
+    function init() {
+        const s = document.createElement('script');
+        s.src = `${scriptURL}?callback=handleData`;
+        document.body.appendChild(s);
+    }
+
+    function handleData(d) {
+        snackData.forEach(s => { 
+            if(!s.isCS && d[s.name.toUpperCase()] !== undefined) s.stock = parseInt(d[s.name.toUpperCase()]); 
+        });
+        document.getElementById('loading').style.display = 'none';
+        render();
+    }
+
+    function render() {
+        const grid = document.getElementById('container-snack');
+        grid.innerHTML = '';
+        snackData.forEach(s => {
+            const soldOut = s.stock <= 0;
+            grid.innerHTML += `
+                <div class="card ${soldOut ? 'is-empty' : ''}">
+                    <div class="sold-out-overlay">
+                        <div class="so-text">SOLD OUT</div>
+                    </div>
+                    <img src="${s.img}">
+                    <div class="card-info">
+                        <div class="card-name">${s.name}</div>
+                        <div class="stock-tag">SISA: ${s.stock}</div>
+                        <div class="counter">
+                            <button class="btn-qty" onclick="changeQty(${s.id},-1)" ${soldOut ? 'disabled' : ''}>-</button>
+                            <span id="qty-${s.id}" style="font-weight:900; min-width:20px;">0</span>
+                            <button class="btn-qty" onclick="changeQty(${s.id},1)" ${soldOut ? 'disabled' : ''}>+</button>
+                        </div>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function changeQty(id, delta) {
+        let q = (cart[id] || 0) + delta;
+        if(q < 0 || q > (snackData[id].stock || 0)) return;
+        cart[id] = q;
+        document.getElementById(`qty-${id}`).innerText = q;
+        updateTotal();
+    }
+
+    function updateTotal() {
+        let total = 0; let list = [];
+        Object.keys(cart).forEach(id => {
+            if(cart[id] > 0) {
+                total += cart[id] * 3;
+                list.push(`${cart[id]}x ${snackData[id].name}`);
+            }
+        });
+        document.getElementById('total-bar').style.display = total > 0 ? 'flex' : 'none';
+        document.getElementById('display-total').innerText = "$" + total.toFixed(2);
+        document.getElementById('summary').innerText = list.join(", ");
+    }
+
+    function openPayment() { 
+        document.getElementById('payment-area').style.display='block'; 
+        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'}); 
+    }
+
+    function showQR(type) {
+        document.getElementById('qr-riel').style.display = 'none';
+        document.getElementById('qr-usd').style.display = 'none';
+        document.getElementById('btn-riel').classList.remove('active');
+        document.getElementById('btn-usd').classList.remove('active');
+        if(type === 'riel') {
+            document.getElementById('qr-riel').style.display = 'flex';
+            document.getElementById('btn-riel').classList.add('active');
+        } else {
+            document.getElementById('qr-usd').style.display = 'flex';
+            document.getElementById('btn-usd').classList.add('active');
+        }
+    }
+
+    function sendToSpreadsheet() {
+        const nama = document.getElementById('nama-pembeli').value;
+        if(!nama) return alert("NAMA HARUS DIISI!");
+        let list = []; let total = 0;
+        Object.keys(cart).forEach(id => { if(cart[id] > 0) { total += cart[id] * 3; list.push(`${cart[id]}x ${snackData[id].name}`); } });
+        if(list.length === 0) return alert("PILIH SNACK DULU!");
+        const btn = document.getElementById('submit-btn');
+        btn.innerText = "MENGIRIM..."; btn.disabled = true;
+        const params = new URLSearchParams();
+        params.append('nama', nama);
+        params.append('pesanan', list.join(", "));
+        params.append('total', "$" + total.toFixed(2));
+        fetch(`${scriptURL}?${params.toString()}`, { method: 'GET', mode: 'no-cors' })
+        .then(() => { alert("ORDER SENT!"); location.reload(); })
+        .catch(() => { location.reload(); });
+    }
+    init();
+</script>
 </body>
 </html>
