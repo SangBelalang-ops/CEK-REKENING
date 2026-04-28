@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERSNACKS.ID - RETRO VIBE</title>
+    <title>TERSNACKS.ID - SPRING GARDEN</title>
     <style>
         :root { 
-            /* TEMA RETRO SYNTHWAVE */
-            --primary: #ff00ff; /* Neon Pink */
-            --secondary: #00ffff; /* Cyber Blue */
-            --glass: rgba(20, 0, 40, 0.9); /* Deep Purple Space */
-            --success: #39ff14; /* Neon Green */
-            --danger: #ff3131;
-            --gold: #ffea00;
+            /* TEMA SPRING NATURE */
+            --primary: #2ecc71; /* Fresh Green */
+            --secondary: #a8e063; /* Sage Green */
+            --glass: rgba(255, 255, 255, 0.9); /* Clean White Glass */
+            --dark: #1b4d3e; /* Deep Forest Green */
+            --success: #27ae60;
+            --danger: #e74c3c;
         }
         body { 
-            font-family: 'Courier New', Courier, monospace; /* Font lebih retro */
-            margin: 0; background: #050010; color: white; 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
+            margin: 0; background: #f0fff4; color: var(--dark); 
             text-align: center; padding-bottom: 50px; overflow-x: hidden; 
         }
 
@@ -28,40 +28,45 @@
             height: 100%;
             z-index: 1;
             pointer-events: none;
-            background: linear-gradient(to bottom, #050010 0%, #200040 100%);
+            background: linear-gradient(to bottom, #f0fff4 0%, #dcfce7 100%);
         }
 
         header { 
             position: relative; 
             z-index: 10; padding: 45px 10px; 
-            background: var(--glass); border-bottom: 4px double var(--primary); 
-            box-shadow: 0 5px 20px rgba(255, 0, 255, 0.3);
+            background: var(--glass); border-bottom: 3px solid var(--primary); 
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.1);
+            backdrop-filter: blur(10px);
         }
         
         .logo-header { 
             width: 280px; margin-bottom: 10px; 
-            filter: drop-shadow(0 0 15px var(--primary)) hue-rotate(45deg); 
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); 
         }
         
         header p { 
-            margin: 0; font-size: 0.9em; font-weight: 900; 
-            letter-spacing: 4px; color: var(--secondary); 
-            text-shadow: 2px 2px var(--primary);
-            text-transform: uppercase;
-            animation: blink 1.5s infinite;
+            margin: 0; font-size: 0.85em; font-weight: 900; 
+            letter-spacing: 3px; color: var(--dark); 
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--dark), var(--primary), var(--dark));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite;
         }
 
-        @keyframes blink {
-            50% { opacity: 0.5; }
+        @keyframes shine {
+            to { background-position: 200% center; }
         }
 
         .kentang-left, .kentang-right {
             position: absolute;
-            bottom: -10px;      
+            bottom: -5px;      
             width: 130px; 
             z-index: 11;
             pointer-events: none;
-            filter: drop-shadow(0 0 10px var(--secondary));
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
         }
         .kentang-left { left: 10px; }
         .kentang-right { right: 10px; }
@@ -78,99 +83,99 @@
         }
         
         .card { 
-            background: rgba(255, 255, 255, 0.05); border-radius: 5px; overflow: hidden; 
-            border: 2px solid var(--secondary); position: relative; 
-            transition: 0.3s;
+            background: white; border-radius: 25px; overflow: hidden; 
+            border: 1px solid rgba(46, 204, 113, 0.2); position: relative; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
         }
         .card:hover { 
-            transform: scale(1.05) rotate(1deg); 
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(46, 204, 113, 0.2);
             border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary);
         }
-        .card img { width: 100%; height: 130px; object-fit: cover; filter: saturate(1.5); }
+        .card img { width: 100%; height: 130px; object-fit: cover; }
         
         .sold-out-overlay { 
             position: absolute; top: 0; left: 0; width: 100%; height: 130px; 
-            background: rgba(0,0,0,0.85); display: none; align-items: center; 
+            background: rgba(255,255,255,0.8); display: none; align-items: center; 
             justify-content: center; z-index: 5;
         }
         .is-empty .sold-out-overlay { display: flex; }
 
         .so-text { 
-            color: #fff; background: var(--danger); padding: 5px 15px; 
-            font-weight: 900; transform: rotate(-10deg); 
-            border: 2px solid white; font-size: 0.8em; 
-            box-shadow: 0 0 10px var(--danger);
+            color: white; background: var(--danger); padding: 5px 15px; 
+            font-weight: 900; transform: rotate(-15deg); 
+            border-radius: 50px; font-size: 0.8em; 
         }
 
-        .card-info { padding: 10px; border-top: 1px solid var(--secondary); }
+        .card-info { padding: 15px; }
         .card-name { 
-            font-size: 0.7em; font-weight: 900; color: var(--secondary); 
+            font-size: 0.75em; font-weight: 800; color: var(--dark); 
             height: 35px; display: flex; align-items: center; 
             justify-content: center; text-transform: uppercase; 
         }
         
         .stock-tag { 
-            font-size: 0.6em; color: #000; 
-            background: var(--secondary); border-radius: 3px; 
-            padding: 2px 8px; display: inline-block; 
-            margin-bottom: 10px; font-weight: 900;
+            font-size: 0.65em; color: var(--primary); 
+            background: #f0fff4; border-radius: 50px; 
+            padding: 4px 12px; display: inline-block; 
+            margin-bottom: 10px; font-weight: 900; border: 1px solid var(--primary);
         }
 
         .counter { display: flex; justify-content: center; align-items: center; gap: 8px; }
         .btn-qty { 
-            background: var(--primary); border: none; 
-            width: 30px; height: 30px; border-radius: 0; color: white; cursor: pointer; 
-            font-weight: bold; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            background: white; border: 2px solid var(--primary); 
+            width: 32px; height: 32px; border-radius: 50%; color: var(--primary); 
+            cursor: pointer; font-weight: bold; transition: 0.2s;
         }
-        
-        .btn-qty:disabled { background: #444; cursor: not-allowed; clip-path: none; }
+        .btn-qty:hover:not(:disabled) { background: var(--primary); color: white; }
+        .btn-qty:disabled { opacity: 0.3; cursor: not-allowed; border-color: #ccc; color: #ccc; }
 
         #total-bar { 
             position: fixed; bottom: 0; left: 0; right: 0; 
-            background: #000; padding: 18px 25px; display: none; 
+            background: var(--glass); padding: 18px 25px; display: none; 
             justify-content: space-between; align-items: center; 
-            border-top: 4px solid var(--primary); z-index: 1000; 
+            border-top: 3px solid var(--primary); z-index: 1000; 
+            backdrop-filter: blur(15px);
         }
         .btn-order { 
-            background: var(--secondary); color: #000; border: none; 
-            padding: 12px 25px; border-radius: 0; font-weight: 900; cursor: pointer;
-            box-shadow: 4px 4px 0 var(--primary);
+            background: var(--primary); color: white; border: none; 
+            padding: 12px 30px; border-radius: 50px; font-weight: 900; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
         }
 
         #payment-area { 
             position: relative; z-index: 10; display:none; padding: 40px 20px; 
-            background: #050010; border-top: 4px double var(--secondary); 
+            background: white; border-top: 3px solid var(--primary); 
         }
         .input-nama { 
-            width: 85%; padding: 15px; border-radius: 0; 
-            border: 2px solid var(--primary); background: #000; 
-            color: var(--secondary); margin-bottom: 25px; text-align: center; font-weight: 800; 
+            width: 85%; padding: 15px; border-radius: 50px; 
+            border: 2px solid var(--secondary); background: #f9f9f9; 
+            color: var(--dark); margin-bottom: 25px; text-align: center; font-weight: 800; 
         }
         
         .pay-options { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; }
         .opt-btn { 
-            background: transparent; border: 2px solid var(--secondary); color: var(--secondary); 
-            padding: 12px 25px; border-radius: 0; cursor: pointer; font-weight: 900; 
+            background: transparent; border: 2px solid var(--primary); color: var(--primary); 
+            padding: 12px 25px; border-radius: 50px; cursor: pointer; font-weight: 900; 
         }
-        .opt-btn.active { background: var(--secondary); color: #000; }
+        .opt-btn.active { background: var(--primary); color: white; }
 
         .final-btn { 
-            background: var(--primary); color: #fff; padding: 18px; 
-            border: none; border-radius: 0; font-weight: 900; 
-            width: 90%; cursor: pointer; text-transform: uppercase;
-            box-shadow: 6px 6px 0 var(--secondary);
+            background: var(--dark); color: white; padding: 18px; 
+            border: none; border-radius: 50px; font-weight: 900; 
+            width: 90%; cursor: pointer; 
         }
 
         footer { 
             position: relative; z-index: 10; margin-top: 60px; 
-            padding: 50px 20px; border-top: 1px solid var(--primary); 
-            background: #000; 
+            padding: 50px 20px; border-top: 1px solid rgba(46, 204, 113, 0.1); 
+            background: white; 
         }
 
         @media (max-width: 600px) { 
-            .grid { grid-template-columns: repeat(2, 1fr); } 
-            .kentang-left, .kentang-right { width: 80px; } 
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 10px; } 
+            .kentang-left, .kentang-right { width: 85px; } 
         }
     </style>
 </head>
@@ -180,106 +185,104 @@
 
 <header>
     <img src="https://i.postimg.cc/T3Dj51gC/download.png" class="logo-header">
-    <h2 style="margin:0; font-size: 1.6em; font-weight: 900; color: var(--secondary); text-shadow: 3px 3px var(--primary);">TERSNACKS.ID</h2>
-    <p>INSERT COIN TO START • $3.00</p>
+    <h2 style="margin:0; font-size: 1.4em; font-weight: 900; color: var(--dark);">TERSNACKS.ID</h2>
+    <p>FRESH FROM NATURE • $3.00</p>
     
     <img src="https://i.postimg.cc/wMKm57LB/output-onlinegiftools.gif" class="kentang-left" alt="Kentang">
     <img src="https://i.postimg.cc/T1rdWcrD/output-onlinegiftools-(1).gif" class="kentang-right" alt="Kentang">
 </header>
 
-<div id="loading" style="padding: 50px; color: var(--primary); font-weight: 800; letter-spacing: 5px;">LOADING SYSTEM...</div>
+<div id="loading" style="padding: 50px; color: var(--primary); font-weight: 800;">HARVESTING DATA...</div>
 <div class="grid" id="container-snack"></div>
 
 <div id="total-bar">
     <div style="text-align:left">
-        <div id="summary" style="font-size: 0.65em; color: var(--secondary); text-transform: uppercase;"></div>
-        <div id="display-total" style="font-weight: 900; color: var(--primary); font-size: 1.4em;">$0.00</div>
+        <div id="summary" style="font-size: 0.65em; color: #666;"></div>
+        <div id="display-total" style="font-weight: 900; color: var(--dark); font-size: 1.4em;">$0.00</div>
     </div>
-    <button class="btn-order" onclick="openPayment()">ORDER NOW</button>
+    <button class="btn-order" onclick="openPayment()">ORDER SEKARANG</button>
 </div>
 
 <div id="payment-area">
-    <h3 style="color: var(--secondary); font-weight: 900;">PLAYER NAME</h3>
-    <input type="text" id="nama-pembeli" class="input-nama" placeholder="ENTER YOUR NAME">
+    <h3 style="color: var(--dark); font-weight: 900;">SIAPA NAMA ANDA?</h3>
+    <input type="text" id="nama-pembeli" class="input-nama" placeholder="TULIS NAMA DISINI">
     
-    <p style="font-size: 0.8em; font-weight: 800; margin-bottom: 15px; color: var(--primary);">SELECT PAYMENT:</p>
+    <p style="font-size: 0.8em; font-weight: 800; margin-bottom: 15px;">METODE PEMBAYARAN:</p>
     <div class="pay-options">
         <button class="opt-btn" id="btn-riel" onclick="showQR('riel')">RIEL</button>
         <button class="opt-btn" id="btn-usd" onclick="showQR('usd')">USD</button>
     </div>
 
-    <div id="qr-riel" class="qr-display">
-        <div class="qr-box">
-            <img src="https://i.postimg.cc/xC8S9kSY/83ab8373-93bf-4620-9f16-ed523851faa0.jpg">
-            <div class="qr-label">BARCODE RIEL</div>
+    <div id="qr-riel" style="display:none; justify-content:center; margin-bottom: 30px;">
+        <div style="background: white; padding: 12px; border-radius: 15px; width: 200px; border: 1px solid #eee;">
+            <img src="https://i.postimg.cc/xC8S9kSY/83ab8373-93bf-4620-9f16-ed523851faa0.jpg" style="width:100%">
+            <div style="color: black; font-size: 0.8em; font-weight: 900; margin-top: 8px;">BARCODE RIEL</div>
         </div>
     </div>
 
-    <div id="qr-usd" class="qr-display">
-        <div class="qr-box">
-            <img src="https://i.postimg.cc/PJGhKtBT/USD.jpg">
-            <div class="qr-label">BARCODE USD</div>
+    <div id="qr-usd" style="display:none; justify-content:center; margin-bottom: 30px;">
+        <div style="background: white; padding: 12px; border-radius: 15px; width: 200px; border: 1px solid #eee;">
+            <img src="https://i.postimg.cc/PJGhKtBT/USD.jpg" style="width:100%">
+            <div style="color: black; font-size: 0.8em; font-weight: 900; margin-top: 8px;">BARCODE USD</div>
         </div>
     </div>
 
-    <button id="submit-btn" onclick="sendToSpreadsheet()" class="final-btn">CONFIRM & START</button>
+    <button id="submit-btn" onclick="sendToSpreadsheet()" class="final-btn">KONFIRMASI PESANAN</button>
 </div>
 
 <footer>
-    <h3 style="color: var(--secondary); letter-spacing: 5px; margin-bottom: 10px; font-weight: 900; font-size: 1.1em;">GAME OVER? SHOP AGAIN!</h3>
-    <div style="color: var(--primary); font-size: 0.8em; font-weight: 700;">THANKS FOR PLAYING AT TERSNACKS.ID</div>
-    <div style="margin-top: 25px; opacity: 0.5; font-size: 0.6em; letter-spacing: 5px;">EST. 198X • 2026</div>
+    <h3 style="color: var(--primary); letter-spacing: 2px; margin-bottom: 10px; font-weight: 900;">THANK YOU!</h3>
+    <div style="color: var(--dark); font-size: 0.9em; font-weight: 700; opacity: 0.8;">NIKMATI SNACK SEGAR DARI TERSNACKS.ID</div>
+    <div style="margin-top: 25px; opacity: 0.3; font-size: 0.6em; letter-spacing: 5px;">SPRING EDITION • 2026</div>
 </footer>
 
 <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbykBwYZX2poPZx2-7gxtfnlrg0N5BW29lkdYOKeaelaGapyKi3NHQHUYDMoA1XTGTjO/exec";
 
-    /* ANIMASI RETRO SPACE (STARS) */
+    /* ANIMASI KELOPAK & DAUN MELAYANG (SPRING BREEZE) */
     const canvas = document.getElementById('rainCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let stars = [];
-    for (let i = 0; i < 150; i++) {
-        stars.push({
+    let leaves = [];
+    const colors = ['#ffffff', '#ffcfe2', '#9ae6b4', '#48bb78']; // Putih, Pink kelopak, Hijau daun
+
+    for (let i = 0; i < 40; i++) {
+        leaves.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 2,
-            speed: Math.random() * 3 + 1
+            size: Math.random() * 6 + 4,
+            color: colors[Math.floor(Math.random() * colors.length)],
+            speedX: Math.random() * 2 + 1, // Gerak ke kanan (angin)
+            speedY: Math.random() * 1 + 0.5,
+            angle: Math.random() * 360
         });
     }
 
-    function drawRetro() {
+    function drawSpring() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw Stars
-        ctx.fillStyle = "#fff";
-        stars.forEach(s => {
-            ctx.fillRect(s.x, s.y, s.size, s.size);
-            s.y += s.speed;
-            if (s.y > canvas.height) s.y = 0;
+        leaves.forEach(l => {
+            ctx.save();
+            ctx.translate(l.x, l.y);
+            ctx.rotate(l.angle * Math.PI / 180);
+            ctx.fillStyle = l.color;
+            // Gambar bentuk kelopak lonjong
+            ctx.beginPath();
+            ctx.ellipse(0, 0, l.size, l.size/2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            l.x += l.speedX;
+            l.y += l.speedY;
+            l.angle += 1;
+
+            if (l.x > canvas.width) l.x = -20;
+            if (l.y > canvas.height) l.y = -20;
         });
-
-        // Draw Retro Grid di bagian bawah
-        ctx.strokeStyle = "rgba(0, 255, 255, 0.2)";
-        ctx.lineWidth = 1;
-        for(let i = 0; i < canvas.width; i += 40) {
-            ctx.beginPath();
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i, canvas.height);
-            ctx.stroke();
-        }
-        for(let i = 0; i < canvas.height; i += 40) {
-            ctx.beginPath();
-            ctx.moveTo(0, i);
-            ctx.lineTo(canvas.width, i);
-            ctx.stroke();
-        }
-
-        requestAnimationFrame(drawRetro);
+        requestAnimationFrame(drawSpring);
     }
-    drawRetro();
+    drawSpring();
 
     window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
@@ -327,12 +330,12 @@
             grid.innerHTML += `
                 <div class="card ${soldOut ? 'is-empty' : ''}">
                     <div class="sold-out-overlay">
-                        <div class="so-text">GAME OVER</div>
+                        <div class="so-text">HABIS</div>
                     </div>
                     <img src="${s.img}">
                     <div class="card-info">
                         <div class="card-name">${s.name}</div>
-                        <div class="stock-tag">STK: ${s.stock}</div>
+                        <div class="stock-tag">STOK: ${s.stock}</div>
                         <div class="counter">
                             <button class="btn-qty" onclick="changeQty(${s.id},-1)" ${soldOut ? 'disabled' : ''}>-</button>
                             <span id="qty-${s.id}" style="font-weight:900; min-width:20px;">0</span>
@@ -385,18 +388,18 @@
 
     function sendToSpreadsheet() {
         const nama = document.getElementById('nama-pembeli').value;
-        if(!nama) return alert("ENTER PLAYER NAME!");
+        if(!nama) return alert("NAMA BELUM DIISI!");
         let list = []; let total = 0;
         Object.keys(cart).forEach(id => { if(cart[id] > 0) { total += cart[id] * 3; list.push(`${cart[id]}x ${snackData[id].name}`); } });
-        if(list.length === 0) return alert("SELECT YOUR SNACK!");
+        if(list.length === 0) return alert("PILIH PESANAN ANDA!");
         const btn = document.getElementById('submit-btn');
-        btn.innerText = "UPLOADING..."; btn.disabled = true;
+        btn.innerText = "MENGIRIM..."; btn.disabled = true;
         const params = new URLSearchParams();
         params.append('nama', nama);
         params.append('pesanan', list.join(", "));
         params.append('total', "$" + total.toFixed(2));
         fetch(`${scriptURL}?${params.toString()}`, { method: 'GET', mode: 'no-cors' })
-        .then(() => { alert("ORDER SENT! LEVEL COMPLETE."); location.reload(); })
+        .then(() => { alert("PESANAN TERKIRIM!"); location.reload(); })
         .catch(() => { location.reload(); });
     }
     init();
